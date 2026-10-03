@@ -105,6 +105,8 @@ html,body{overscroll-behavior-y:contain}
 .linha3 .btn span{display:block;font-size:1.5rem;margin-bottom:3px}
 .cl{margin:6px 0 0;padding-left:18px}
 .cl li{margin:5px 0;font-size:.92rem}
+.linha2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.linha2 .btn{margin:8px 0}
 </style>
 </head>
 <body>
@@ -121,7 +123,7 @@ html,body{overscroll-behavior-y:contain}
     <button class="btn" id="bNova"><span>＋</span>Nova ação</button>
     <button class="btn sec" id="bConf"><span>⚙</span>Configurações</button>
   </div>
-  <div class="rodape">Fênix | Personal v1.3</div>
+  <div class="rodape">Fênix | Personal v1.4</div>
 </section>
 
 <!-- CATÁLOGO -->
@@ -150,6 +152,8 @@ html,body{overscroll-behavior-y:contain}
     <label>Volume da voz<input type="range" id="cVolVoz" min="0" max="1" step="0.05"></label>
     <label>Volume do bumbo e bipes<input type="range" id="cVolSom" min="0" max="1" step="0.05"></label>
     <label class="chk"><input type="checkbox" id="cVib"> Vibrar a cada sinal</label>
+    <label class="chk" style="margin-top:12px"><input type="checkbox" id="cAuto"> Iniciar a ação automaticamente ao tocar nela</label>
+    <div class="mut">Desligado: ao tocar numa ação abre a ficha, onde você ajusta o tempo e escolhe quando começar.</div>
     <button class="btn peq sec" id="tVoz">🔊 Testar voz</button>
     <button class="btn peq sec" id="tBum">🥁 Testar bumbo</button>
   </div>
@@ -170,7 +174,7 @@ html,body{overscroll-behavior-y:contain}
     <input type="file" id="fImp" accept="application/json,.json" style="display:none">
     <div class="mut" style="margin-top:6px">Tudo fica salvo apenas neste aparelho (localStorage).</div>
   </div>
-  <div class="rodape">Fênix | Personal v1.3</div>
+  <div class="rodape">Fênix | Personal v1.4</div>
 </section>
 
 <!-- SOBRE -->
@@ -186,18 +190,23 @@ html,body{overscroll-behavior-y:contain}
   <div id="sbLog"></div>
 </section>
 
-<!-- AJUSTE AO TEMPO -->
-<section class="tela" id="tAj">
-  <div class="topo"><button class="btn sec peq" id="ajVoltar">← Voltar</button><h1>Ajustar ao tempo</h1></div>
+<!-- FICHA DA ATIVIDADE -->
+<section class="tela" id="tFicha">
+  <div class="topo"><button class="btn sec peq" id="fcVoltar">← Voltar</button></div>
+  <h1 id="fcTit"></h1>
+  <div class="card"><div id="fcDesc" class="mut"></div><div id="fcResumo" style="margin-top:6px;font-weight:700"></div></div>
   <div class="card">
-    <div id="ajNome"></div>
-    <label>Tempo disponível (minutos)<input type="number" inputmode="numeric" min="1" id="ajMin"></label>
-    <div class="mut" id="ajInfo"></div>
+    <h2>⏱ Meu tempo disponível</h2>
+    <label>Quero fazer em (minutos)<input type="number" inputmode="numeric" min="1" id="fcMin"></label>
+    <div class="mut" id="fcInfo" style="margin:6px 0"></div>
+    <div id="fcPrev"></div>
   </div>
-  <div class="card" id="ajPrev"></div>
-  <button class="btn ouro" id="ajExec">▶ Executar assim (sem alterar a ação)</button>
-  <button class="btn" id="ajSalvar">💾 Salvar na ação</button>
-  <button class="btn sec" id="ajCopia">⧉ Salvar como nova ação</button>
+  <button class="btn ouro" id="fcIniciar">▶ Começar agora</button>
+  <div class="linha2" id="fcSalvarBox">
+    <button class="btn" id="fcSalvar">💾 Salvar ajuste</button>
+    <button class="btn sec" id="fcCopia">⧉ Salvar como nova</button>
+  </div>
+  <button class="btn sec" id="fcEditar">✎ Editar ação</button>
 </section>
 
 <!-- EXECUÇÃO -->
@@ -237,7 +246,7 @@ html,body{overscroll-behavior-y:contain}
 
 <script>
 'use strict';
-const VERSAO='1.3';
+const VERSAO='1.4';
 const KEY='fenixPersonalV1';
 const $=s=>document.querySelector(s);
 const uid=()=>Math.random().toString(36).slice(2,9);
@@ -280,7 +289,7 @@ function seed(){
 }
 
 /* ---------- Estado e persistência ---------- */
-const CFG0={nome:'Cristiano',voz:true,vozId:'',vel:1.05,tom:1,volVoz:1,volSom:0.9,vibrar:true};
+const CFG0={nome:'Cristiano',voz:true,vozId:'',vel:1.05,tom:1,volVoz:1,volSom:0.9,vibrar:true,autoIniciar:false};
 let ST=load();
 function load(){
   try{const j=JSON.parse(localStorage.getItem(KEY));
@@ -332,7 +341,7 @@ function rHome(){
         :`<button class="fav vazio" data-nova="1"><span class="ic">＋</span><b>Nova ação</b></button>`;
   }
   $('#hFavs').innerHTML=h;
-  document.querySelectorAll('[data-run]').forEach(b=>b.onclick=()=>iniciar(b.dataset.run));
+  document.querySelectorAll('[data-run]').forEach(b=>b.onclick=()=>abrirAtiv(b.dataset.run));
   document.querySelectorAll('[data-nova]').forEach(b=>b.onclick=()=>abrirEd(null));
 }
 $('#bExec').onclick=()=>ir('tCat');
@@ -345,14 +354,14 @@ function rCat(){
   $('#cLista').innerHTML=ST.atividades.map(a=>{
     const ult=ST.ult[a.id]?new Date(ST.ult[a.id]).toLocaleDateString('pt-BR'):'nunca';
     return `<div class="card"><div class="it"><span class="ic">${esc(a.icone||'⚡')}</span><div class="tx"><b>${esc(a.nome)}</b><small>${a.etapas.length} etapa(s) · ${a.rodadas}x · ${fmt(durAtiv(a))} · última: ${ult}</small>${a.desc?`<small>${esc(a.desc)}</small>`:''}</div></div>
-    <button class="btn peq ouro" data-run="${esc(a.id)}">▶ Executar</button>
+    <button class="btn peq ouro" data-run="${esc(a.id)}">▶ Abrir</button>
     <button class="btn peq sec" data-aj="${esc(a.id)}">⏱ Ajustar tempo</button>
     <button class="btn peq sec" data-ed="${esc(a.id)}">✎ Editar</button>
     <button class="btn peq sec" data-dup="${esc(a.id)}">⧉ Duplicar</button>
     <button class="btn peq perigo" data-del="${esc(a.id)}">🗑</button></div>`}).join('');
-  document.querySelectorAll('#cLista [data-run]').forEach(b=>b.onclick=()=>iniciar(b.dataset.run));
+  document.querySelectorAll('#cLista [data-run]').forEach(b=>b.onclick=()=>abrirAtiv(b.dataset.run));
   document.querySelectorAll('#cLista [data-ed]').forEach(b=>b.onclick=()=>abrirEd(b.dataset.ed));
-  document.querySelectorAll('#cLista [data-aj]').forEach(b=>b.onclick=()=>abrirAj(b.dataset.aj));
+  document.querySelectorAll('#cLista [data-aj]').forEach(b=>b.onclick=()=>abrirFicha(b.dataset.aj));
   document.querySelectorAll('#cLista [data-dup]').forEach(b=>b.onclick=()=>{
     const a=ST.atividades.find(x=>x.id===b.dataset.dup);if(!a)return;
     const c=clone(a);c.id=uid();c.nome+=' (cópia)';ST.atividades.push(c);save();rCat()});
@@ -458,12 +467,12 @@ function rVozes(){
 if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=rVozes;
 function rConf(){
   const c=C();
-  $('#cNome').value=c.nome;$('#cVoz').checked=c.voz;$('#cVib').checked=c.vibrar;
+  $('#cNome').value=c.nome;$('#cVoz').checked=c.voz;$('#cVib').checked=c.vibrar;$('#cAuto').checked=c.autoIniciar;
   $('#cVel').value=c.vel;$('#cTom').value=c.tom;$('#cVolVoz').value=c.volVoz;$('#cVolSom').value=c.volSom;
   $('#vVel').textContent=c.vel;$('#vTom').textContent=c.tom;
   rVozes();offInfo();
 }
-[['cNome','nome','v'],['cVoz','voz','c'],['cVib','vibrar','c'],['cVel','vel','n'],['cTom','tom','n'],['cVolVoz','volVoz','n'],['cVolSom','volSom','n'],['cVozId','vozId','v']].forEach(([id,k,t])=>{
+[['cNome','nome','v'],['cVoz','voz','c'],['cVib','vibrar','c'],['cAuto','autoIniciar','c'],['cVel','vel','n'],['cTom','tom','n'],['cVolVoz','volVoz','n'],['cVolSom','volSom','n'],['cVozId','vozId','v']].forEach(([id,k,t])=>{
   $('#'+id).addEventListener('input',()=>{
     const el=$('#'+id);C()[k]=t==='c'?el.checked:t==='n'?parseFloat(el.value):el.value;
     if(k==='vel')$('#vVel').textContent=C().vel;if(k==='tom')$('#vTom').textContent=C().tom;
@@ -693,43 +702,71 @@ function ajustar(a,minutos){
   return {b,minimo:false};
 }
 /*AJ-END*/
-let AJ=null;
-function abrirAj(id){
+/* ---------- Ficha da atividade ---------- */
+let FC=null;
+function abrirAtiv(id){if(C().autoIniciar)iniciar(id);else abrirFicha(id)}
+function abrirFicha(id){
   const a=ST.atividades.find(x=>x.id===id);if(!a)return;
-  AJ={a,res:null};
-  $('#ajNome').innerHTML='<b>'+esc(a.icone||'⚡')+' '+esc(a.nome)+'</b>';
-  $('#ajMin').value=Math.max(1,Math.round(durAtiv(a)/60*0.6));
-  rAj();ir('tAj');
+  const on=document.querySelector('.tela.on');
+  FC={a,res:null,base:1,volta:on&&(on.id==='tHome'||on.id==='tCat')?on.id:'tCat'};
+  pintaFicha();ir('tFicha');
 }
-function rAj(){
-  const a=AJ.a,m=parseFloat($('#ajMin').value);
-  if(!(m>0)){$('#ajInfo').textContent='Informe os minutos.';$('#ajPrev').innerHTML='';return}
-  const res=ajustar(a,m);AJ.res=res;AJ.min=m;
+function pintaFicha(){
+  const a=FC.a;
+  FC.base=Math.max(1,Math.round(durAtiv(a)/60));
+  $('#fcTit').textContent=(a.icone||'⚡')+' '+a.nome;
+  $('#fcDesc').textContent=a.desc||'';
+  $('#fcResumo').textContent=a.etapas.length+' etapa(s) · '+a.rodadas+'x · '+fmt(durAtiv(a));
+  $('#fcMin').value=FC.base;
+  rFicha();
+}
+function rFicha(){
+  const a=FC.a,m=parseFloat($('#fcMin').value);
+  const caixa=$('#fcSalvarBox');
+  if(!(m>0)){FC.res=null;$('#fcInfo').textContent='Informe os minutos.';$('#fcPrev').innerHTML='';caixa.style.display='none';$('#fcIniciar').textContent='▶ Começar agora';return}
+  if(m===FC.base){
+    FC.res=null;caixa.style.display='none';
+    $('#fcInfo').innerHTML='Tempo atual da ação: <b>'+fmt(durAtiv(a))+'</b>. Mude os minutos para adequar a ação ao tempo que você tem.';
+    $('#fcPrev').innerHTML=a.etapas.map((e,i)=>`<div class="pv"><span>${i+1}. ${esc(e.nome)}</span><b>${e.reps} rep.</b></div>`).join('');
+    $('#fcIniciar').textContent='▶ Começar agora ('+fmt(durAtiv(a))+')';
+    return;
+  }
+  const res=ajustar(a,m);FC.res=res;caixa.style.display='grid';
   const novo=durAtiv(res.b);
-  $('#ajInfo').innerHTML='Atual: <b>'+fmt(durAtiv(a))+'</b> → Ajustado: <b>'+fmt(novo)+'</b>'+(res.minimo?'<div class="aviso">Tempo abaixo do mínimo possível (1 repetição por etapa = '+fmt(res.minSeg)+'). Os descansos foram encurtados.</div>':'');
-  $('#ajPrev').innerHTML=a.etapas.map((e,i)=>{
+  $('#fcInfo').innerHTML='Atual: <b>'+fmt(durAtiv(a))+'</b> → Ajustado: <b>'+fmt(novo)+'</b>'+(res.minimo?'<div class="aviso">Tempo abaixo do mínimo possível (1 repetição por etapa = '+fmt(res.minSeg)+'). Os descansos foram encurtados.</div>':'');
+  $('#fcPrev').innerHTML=a.etapas.map((e,i)=>{
     const n=res.b.etapas[i];
     return `<div class="pv"><span>${i+1}. ${esc(e.nome)}</span><b>${e.reps} → ${n.reps} rep.${n.descanso!==e.descanso?' · desc. '+n.descanso+'s':''}</b></div>`}).join('')
-    +'<div class="mut" style="margin-top:8px">O ritmo de cada fase (2 s, 3 s…), o preparo e a ordem das etapas não mudam: o app reduz ou aumenta as repetições de cada etapa na mesma proporção.</div>';
+    +'<div class="mut" style="margin-top:8px">O ritmo de cada fase, o preparo e a ordem das etapas não mudam: só as repetições são redistribuídas na mesma proporção.</div>';
+  $('#fcIniciar').textContent='▶ Começar agora ('+fmt(novo)+')';
 }
-$('#ajMin').addEventListener('input',()=>rAj());
-$('#ajVoltar').onclick=()=>ir('tCat');
-$('#ajExec').onclick=()=>{if(AJ&&AJ.res)iniciar(AJ.a.id,AJ.res.b)};
-$('#ajSalvar').onclick=()=>{
-  if(!AJ||!AJ.res)return;
-  if(!confirm('Substituir as repetições de "'+AJ.a.nome+'" pelo ajuste de '+AJ.min+' min?'))return;
-  const i=ST.atividades.findIndex(x=>x.id===AJ.a.id);
-  if(i>=0)ST.atividades[i]=AJ.res.b;save();ir('tCat');
+$('#fcMin').addEventListener('input',()=>rFicha());
+$('#fcVoltar').onclick=()=>ir(FC?FC.volta:'tCat');
+$('#fcIniciar').onclick=()=>{if(FC)iniciar(FC.a.id,FC.res?FC.res.b:null)};
+$('#fcEditar').onclick=()=>{if(FC)abrirEd(FC.a.id)};
+$('#fcSalvar').onclick=()=>{
+  if(!FC||!FC.res)return;
+  if(!confirm('Substituir as repetições de "'+FC.a.nome+'" por este ajuste?'))return;
+  const i=ST.atividades.findIndex(x=>x.id===FC.a.id);
+  if(i>=0)ST.atividades[i]=FC.res.b;save();
+  FC.a=FC.res.b;pintaFicha();
 };
-$('#ajCopia').onclick=()=>{
-  if(!AJ||!AJ.res)return;
-  const c=clone(AJ.res.b);c.id=uid();c.nome=AJ.a.nome+' ('+Math.round(AJ.min)+' min)';
+$('#fcCopia').onclick=()=>{
+  if(!FC||!FC.res)return;
+  const c=clone(FC.res.b);c.id=uid();c.nome=FC.a.nome+' ('+Math.round(parseFloat($('#fcMin').value))+' min)';
   ST.atividades.push(c);save();ir('tCat');
 };
 
 /* ---------- Sobre e Changelog ---------- */
 /* Regra Fênix: a cada nova versão, acrescente um bloco no topo de CHANGELOG. */
 const CHANGELOG=[
+ {v:'1.4',d:'03/10/2026',i:[
+  'Nova ficha da atividade: ao tocar numa ação (tela inicial ou catálogo) o app abre uma ficha com o resumo, as etapas e o tempo total, e é ali que você decide se começa agora. Nada começa sozinho.',
+  'O ajuste ao tempo passou para dentro da ficha: campo "Meu tempo disponível" com prévia ao vivo por etapa e botão "Começar agora (xx min)" já com o tempo ajustado.',
+  'Na ficha também dá para salvar o ajuste na própria ação, salvar como nova ação ou abrir o editor.',
+  'Configurações: novo check "Iniciar a ação automaticamente ao tocar nela" (desligado por padrão). Ligado, a ação começa direto, como antes.',
+  'Catálogo: o botão "▶ Executar" virou "▶ Abrir" e segue a regra acima; "⏱ Ajustar tempo" sempre abre a ficha, mesmo com o início automático ligado.',
+  'Cache offline atualizado para a v1.4 (service worker).']},
  {v:'1.3',d:'03/10/2026',i:[
   'Novo botão "ℹ Sobre" na tela inicial, com a descrição do app, a versão atual e este Changelog detalhado (regra universal dos apps Fênix).',
   'Tela inicial com 4 ações fixas (as 4 mais usadas, em grade 2×2), no lugar de 2. Os espaços vazios levam direto a "Nova ação".',
