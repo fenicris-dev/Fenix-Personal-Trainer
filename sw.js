@@ -1,6 +1,6 @@
-/* Fênix | Personal — service worker v1.2
+/* Fênix | Personal — service worker v1.3
    A cada nova versão do app, mude o número em CACHE (ex.: v1.3) para o aparelho baixar os arquivos novos. */
-const CACHE='fenix-personal-v1.2';
+const CACHE='fenix-personal-v1.3';
 const ARQUIVOS=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 
 self.addEventListener('install',e=>{
