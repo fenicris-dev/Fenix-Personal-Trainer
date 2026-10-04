@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#041273">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fênix Personal">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Fênix | Personal</title>
+<style>
+:root{--navy:#041273;--navy2:#0b23b5;--dark:#030a45;--gold:#e0b030;--gold2:#f5d36b;--ink:#eef1ff;--card:#0a1790;--danger:#c93a46}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--dark);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.tela{display:none;max-width:560px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 16px 36px}
+.tela.on{display:block}
+h1{font-size:1.45rem;margin:.1em 0;color:var(--gold2)}
+h2{font-size:1.15rem;margin:.2em 0 .6em;color:var(--gold2)}
+small,.mut{color:#aab4ff;font-weight:400}
+.topo{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.marca{font-size:1.6rem;font-weight:800;color:var(--gold2);letter-spacing:.3px}
+.marca span{color:#fff;font-weight:400}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:16px;font-size:1.05rem;font-weight:700;color:#fff;background:var(--navy2);cursor:pointer;margin:8px 0;font-family:inherit}
+.btn:active{transform:scale(.98)}
+.btn.ouro{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#2a1d00}
+.btn.sec{background:rgba(255,255,255,.12)}
+.btn.perigo{background:var(--danger)}
+.btn.peq{display:inline-block;width:auto;padding:9px 13px;font-size:.9rem;border-radius:12px;margin:3px 3px 3px 0}
+.card{background:var(--card);border-radius:16px;padding:14px;margin:10px 0;border:1px solid rgba(255,255,255,.1)}
+.favs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.fav{border:0;border-radius:18px;padding:14px 8px;background:linear-gradient(160deg,var(--navy2),var(--navy));color:#fff;border:1px solid rgba(224,176,48,.5);font-family:inherit;cursor:pointer;text-align:center}
+.fav b{display:block;font-size:.95rem;margin-top:6px}
+.fav .ic{font-size:1.9rem}
+.fav small{display:block;margin-top:3px}
+.vazio{opacity:.5}
+.kgin{width:76px!important;padding:6px!important;margin-left:auto}.rowck{display:flex;align-items:center;gap:6px}.rowck label{flex:1;margin:7px 0}
+.nv{display:flex;gap:12px;align-items:center;text-align:left;margin:8px 0}.nv small{display:block;font-weight:400;color:#cfd6ff;margin-top:2px}.nvi{font-size:1.8rem}
+#tCont{max-width:none;min-height:100dvh;text-align:center;background:#041273;padding-bottom:20px}
+#tCont.on{display:flex;flex-direction:column;align-items:center}
+#tCont .inner{width:100%;max-width:520px}
+#tCont.fim{background:#0a6b48}
+.c-mais{font-size:2.2rem!important;padding:34px 10px!important;margin:12px 0!important}
+#tGps{max-width:none;min-height:100dvh;text-align:center;background:#041273;padding-bottom:20px}
+#tGps.on{display:flex;flex-direction:column;align-items:center}
+#tGps .inner{width:100%;max-width:520px}
+#tGps.fim{background:#0a6b48}
+.g-dist{font-size:3.2rem;font-weight:800;line-height:1.1;margin:6px 0}
+.g-tempo{font-size:4.4rem;font-weight:800;color:var(--gold2);line-height:1}
+.favs.mini{gap:8px}.favs.mini .fav{padding:9px 6px;border-radius:14px}.favs.mini .fav .ic{font-size:1.5rem}.favs.mini .fav b{font-size:.85rem;margin-top:3px}.favs.mini .fav small{font-size:.7rem}
+.cklist label.chk{margin:7px 0;align-items:flex-start}.cklist small{color:#aab4ff}
+label{display:block;font-size:.8rem;color:#aab4ff;margin:8px 0 2px}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#050e5c;color:#fff;font-size:1rem;font-family:inherit}
+input[type=checkbox]{width:auto;margin-right:8px;transform:scale(1.3)}
+input[type=range]{padding:0}
+.chk{display:flex;align-items:center;color:var(--ink);font-size:.95rem}
+.lin{display:flex;gap:8px}.lin>label{flex:1}.lin>label.gr{flex:2}
+details.et>summary{cursor:pointer;font-weight:700;list-style:none}
+details.et>summary::-webkit-details-marker{display:none}
+.fase-ed{border-top:1px dashed rgba(255,255,255,.2);margin-top:12px;padding-top:6px}
+.it{display:flex;align-items:center;gap:10px}
+.it .ic{font-size:1.8rem}
+.it .tx{flex:1;min-width:0}
+.it .tx b{display:block}
+.rodape{text-align:center;margin-top:24px;font-size:.8rem;color:#7f8bd8}
+/* Execução */
+#tExec{max-width:none;min-height:100dvh;text-align:center;transition:background .3s;padding-bottom:20px}
+#tExec.on{display:flex;flex-direction:column;align-items:center}
+#tExec .inner{width:100%;max-width:520px}
+#tExec.fase{background:#041273}#tExec.preparo{background:#7a5200}#tExec.descanso{background:#0a5560}#tExec.fim{background:#0a6b48}
+.ex-topo{display:flex;justify-content:space-between;font-size:.85rem;color:#cfd6ff}
+.ex-etapa{margin-top:8px;font-size:1rem;color:var(--gold2);font-weight:700}
+.ex-fase{font-size:2.3rem;font-weight:800;margin:6px 0 0;line-height:1.1}
+.ex-dica{min-height:1.4em;color:#dfe4ff;font-size:1.05rem;margin:4px 0}
+.ex-cont{font-size:6rem;font-weight:800;color:var(--gold2);line-height:1;margin:4px 0}
+.ex-rep{font-size:1.1rem;font-weight:700}
+.barra{height:8px;border-radius:6px;background:rgba(255,255,255,.18);overflow:hidden;margin:8px 0}
+.barra i{display:block;height:100%;width:0;background:var(--gold2)}
+.pulso .ex-fase{animation:pulso .35s}
+@keyframes pulso{0%{transform:scale(1.12)}100%{transform:scale(1)}}
+.ex-bt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ex-bt .btn{margin:0;padding:13px;font-size:.95rem}
+/* Desenho guiado */
+.guia{position:relative;width:190px;height:190px;margin:8px auto;border-radius:24px;background:rgba(0,0,0,.28);border:2px solid rgba(255,255,255,.2);overflow:hidden}
+.guia[data-m=nenhum]{display:none}
+.m{position:absolute;inset:0;display:none}
+.guia[data-m=alvo] .m-alvo,.guia[data-m=orb] .m-orb,.guia[data-m=olhos] .m-olhos,.guia[data-m=lapis] .m-lapis{display:block}
+.ponto{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:var(--gold2);box-shadow:0 0 18px var(--gold)}
+.m-alvo .ponto{left:50%;top:50%;transition:left .25s,top .25s}
+.guia[data-pos*=cima] .m-alvo .ponto{top:14%}
+.guia[data-pos*=baixo] .m-alvo .ponto{top:86%}
+.guia[data-pos*=esquerda] .m-alvo .ponto{left:14%}
+.guia[data-pos*=direita] .m-alvo .ponto{left:86%}
+.m-alvo::before{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;border:2px solid rgba(255,255,255,.3)}
+.m-orb::before{content:"";position:absolute;inset:14%;border:2px dashed rgba(255,255,255,.3);border-radius:50%}
+.braco{position:absolute;inset:0;transform-origin:50% 50%}
+.m-orb .ponto{left:50%;top:14%}
+@keyframes giraH{to{transform:rotate(360deg)}}
+@keyframes giraA{to{transform:rotate(-360deg)}}
+.olho{transform-box:fill-box;transform-origin:center}
+.veda{opacity:0;transition:opacity .15s}
+.guia[data-v=dir] #vD,.guia[data-v=esq] #vE{opacity:1}
+.guia[data-p=sim] .olho{animation:blink var(--bd,.8s) ease-in-out 5}
+@keyframes blink{0%,100%{transform:scaleY(1)}45%,55%{transform:scaleY(.08)}}
+.nariz{position:absolute;left:50%;bottom:5%;width:36px;height:46px;margin-left:-18px;border-radius:50% 50% 60% 60%;background:#e0b08a}
+#lap{position:absolute;left:50%;top:4%;width:12px;height:64px;margin-left:-6px;border-radius:3px 3px 9px 9px;background:linear-gradient(#f5d36b,#c98a1b);transform:scale(.5)}
+@keyframes lapIn{from{top:4%;transform:scale(.5)}to{top:36%;transform:scale(1.1)}}
+@keyframes lapOut{from{top:36%;transform:scale(1.1)}to{top:4%;transform:scale(.5)}}
+.guia.pausa *{animation-play-state:paused!important}
+.pv{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.15);font-size:.92rem}
+.pv:last-child{border-bottom:0}
+.pv b{color:var(--gold2);white-space:nowrap}
+.aviso{color:#ffd37a;font-size:.88rem;margin-top:6px}
+html,body{overscroll-behavior-y:contain}
+.linha3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.linha3 .btn{margin:0;padding:12px 4px;font-size:.82rem;line-height:1.2}
+.linha3 .btn span{display:block;font-size:1.5rem;margin-bottom:3px}
+.cl{margin:6px 0 0;padding-left:18px}
+.cl li{margin:5px 0;font-size:.92rem}
+.linha2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.linha2 .btn{margin:8px 0}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<section class="tela on" id="tHome">
+  <div class="topo"><div class="marca">Fênix <span>| Personal</span></div><button class="btn sec peq" id="bSobre">ℹ Sobre</button></div>
+  <div class="mut" id="hSaud"></div>
+  <button class="btn ouro" id="bAtu" style="display:none">🔄 Nova versão pronta — toque para atualizar</button>
+  <button class="btn sec" id="bInst" style="display:none">📲 Instalar o app no aparelho</button>
+  <div class="favs" id="hFavs"></div>
+  <div class="linha3">
+    <button class="btn ouro" id="bExec"><span>▶</span>Executar ação</button>
+    <button class="btn" id="bNova"><span>＋</span>Nova ação</button>
+    <button class="btn sec" id="bConf"><span>⚙</span>Configurações</button>
+  </div>
+  <div class="rodape">Fênix | Personal v2.1</div>
+</section>
+
+<!-- NOVA AÇÃO (assistente) -->
+<section class="tela" id="tNovo">
+  <div class="topo"><button class="btn sec peq" id="nvVolta">← Voltar</button><h1>Nova ação</h1></div>
+  <h2 id="nvPerg"></h2>
+  <div id="nvOp"></div>
+</section>
+
+<!-- CATÁLOGO -->
+<section class="tela" id="tCat">
+  <div class="topo"><button class="btn sec peq" data-go="tHome">← Início</button><h1>Minhas ações</h1></div>
+  <div id="cLista"></div>
+  <button class="btn" id="bNova2">＋ Nova ação</button>
+</section>
+
+<!-- EDITOR -->
+<section class="tela" id="tEd">
+  <div class="topo"><button class="btn sec peq" id="edVoltar">← Cancelar</button><h1 id="edTit">Editar ação</h1></div>
+  <div id="edForm"></div>
+  <button class="btn ouro" id="edSalvar">💾 Salvar ação</button>
+</section>
+
+<!-- CONFIG -->
+<section class="tela" id="tConf">
+  <div class="topo"><button class="btn sec peq" data-go="tHome">← Início</button><h1>Configurações</h1></div>
+  <div class="card">
+    <label>Nome do praticante<input id="cNome"></label>
+    <label class="chk"><input type="checkbox" id="cVoz"> Voz do personal ligada</label>
+    <label>Estilo do personal<select id="cEstilo"><option value="neutro">Neutro — só os comandos</option><option value="sargento">Sargento — firme e direto</option><option value="amigo">Amigo — motivador</option><option value="zen">Zen — calmo e presente</option></select></label>
+    <label class="chk" style="margin-top:8px"><input type="checkbox" id="cInc"> Frases de incentivo durante as séries</label>
+    <label>Preferência de voz<select id="cGen"><option value="todas">Qualquer</option><option value="f">Feminina</option><option value="m">Masculina</option></select></label>
+    <label>Voz (instaladas no aparelho)<select id="cVozId"></select></label>
+    <div class="mut" style="margin:4px 0 8px">O aparelho não informa se a voz é masculina ou feminina: o app deduz pelo nome (♂ ♀ são prováveis). Para ter mais vozes, instale-as nas configurações de texto para fala do Android/iPhone.</div>
+    <label>Velocidade da fala: <span id="vVel"></span><input type="range" id="cVel" min="0.7" max="1.6" step="0.05"></label>
+    <label>Tom (grave ↔ agudo): <span id="vTom"></span><input type="range" id="cTom" min="0.5" max="1.6" step="0.05"></label>
+    <label>Volume da voz<input type="range" id="cVolVoz" min="0" max="1" step="0.05"></label>
+    <label>Volume do bumbo e bipes<input type="range" id="cVolSom" min="0" max="1" step="0.05"></label>
+    <label class="chk"><input type="checkbox" id="cVib"> Vibrar a cada sinal</label>
+    <label class="chk" style="margin-top:12px"><input type="checkbox" id="cAuto"> Iniciar a ação automaticamente ao tocar nela</label>
+    <div class="mut">Desligado: ao tocar numa ação abre a ficha, onde você ajusta o tempo e escolhe quando começar.</div>
+    <button class="btn peq sec" id="tVoz">🔊 Testar voz e estilo</button>
+    <button class="btn peq sec" id="tBum">🥁 Testar bumbo</button>
+  </div>
+  <div class="card">
+    <h2>Perfil e sensores</h2>
+    <div class="lin"><label>Peso (kg)<input type="number" inputmode="decimal" id="cPeso"></label>
+    <label>FC máxima (bpm)<input type="number" inputmode="numeric" id="cFcMax" placeholder="220 − idade"></label></div>
+    <div class="mut">Ficam só neste aparelho. O peso estima as calorias (sem ele, o app usa 70 kg) e a FC máxima define as zonas de frequência cardíaca.</div>
+    <button class="btn peq sec" id="cFcCon">❤ Conectar cinta cardíaca (Bluetooth)</button>
+    <div class="mut" id="cFcSt"></div>
+  </div>
+  <div class="card">
+    <h2>Botões da tela inicial</h2>
+    <div class="mut" id="cFavInfo"></div>
+    <div id="cFavLista" class="cklist"></div>
+    <button class="btn peq sec" id="cFavAuto">↺ Voltar ao automático (mais usadas)</button>
+  </div>
+  <div class="card">
+    <h2>Música de fundo</h2>
+    <div class="mut">Inicie a música no player do celular (Spotify, YouTube Music, arquivos) e volte para o Fênix | Personal: o app fala e marca o ritmo por cima. A playlist própria do app fica para uma próxima versão.</div>
+  </div>
+  <div class="card">
+    <h2>Aplicativo</h2>
+    <div class="mut" id="cOff"></div>
+    <div class="mut" style="margin-top:6px">Android (Chrome): menu ⋮ → Instalar app. iPhone/iPad (Safari): Compartilhar → Adicionar à Tela de Início.</div>
+  </div>
+  <div class="card">
+    <h2>Seus dados</h2>
+    <button class="btn peq sec" id="bExp">⬇ Exportar backup</button>
+    <button class="btn peq sec" id="bImp">⬆ Importar backup</button>
+    <button class="btn peq sec" id="bRest">↺ Restaurar modelos</button>
+    <input type="file" id="fImp" accept="application/json,.json" style="display:none">
+    <div class="mut" style="margin-top:6px">Tudo fica salvo apenas neste aparelho (localStorage).</div>
+  </div>
+  <div class="rodape">Fênix | Personal v2.1</div>
+</section>
+
+<!-- SOBRE -->
+<section class="tela" id="tSobre">
+  <div class="topo"><button class="btn sec peq" data-go="tHome">← Início</button><h1>Sobre</h1></div>
+  <div class="card">
+    <div class="marca">Fênix <span>| Personal</span></div>
+    <div id="sbVer" style="margin:4px 0;font-weight:700"></div>
+    <div class="mut">Personal trainer modular que cadencia suas ações por voz, som e desenho: treino, alongamento, exercício ocular, estudo, cozinha. A criatividade de quem usa define a ação.</div>
+    <div class="mut" style="margin-top:8px">Desenvolvido por Fênix Soluções Tecnológicas.</div>
+  </div>
+  <h2>Changelog</h2>
+  <div id="sbLog"></div>
+</section>
+
+<!-- FICHA DA ATIVIDADE -->
+<section class="tela" id="tFicha">
+  <div class="topo"><button class="btn sec peq" id="fcVoltar">← Voltar</button></div>
+  <h1 id="fcTit"></h1>
+  <div class="card"><div id="fcDesc" class="mut"></div><div id="fcResumo" style="margin-top:6px;font-weight:700"></div></div>
+  <div class="card" id="fcLivreCard" style="display:none">
+    <h2>⏱ Resistência até o limite</h2>
+    <div class="lin"><label>Meta (segundos, 0 = sem)<input type="number" inputmode="numeric" min="0" id="lMeta"></label>
+    <label>Avisar a cada (s)<input type="number" inputmode="numeric" min="0" id="lAv"></label></div>
+    <div class="mut" id="lInfo" style="margin:6px 0"></div>
+    <button class="btn peq sec" id="lSalvar">💾 Salvar estas metas na ação</button>
+    <div class="mut">O cronômetro sobe até você encerrar. O app guarda o seu recorde e avisa quando ele for batido.</div>
+  </div>
+  <div class="card" id="fcContCard" style="display:none">
+    <h2>🔢 Meta da contagem</h2>
+    <label>Encerrar por<select id="kModo"><option value="primeiro">Tempo ou quantidade (o que vier primeiro)</option><option value="tempo">Só tempo</option><option value="quantidade">Só quantidade</option></select></label>
+    <div class="lin"><label>Tempo (min)<input type="number" inputmode="decimal" min="1" id="kMin"></label>
+    <label>Quantidade (<span id="kUn"></span>)<input type="number" inputmode="decimal" min="1" id="kQtd"></label></div>
+    <label>Avisar por voz a cada<input type="number" inputmode="decimal" min="1" id="kAv"></label>
+    <label>Meta de gasto (kcal, 0 = sem)<input type="number" inputmode="decimal" min="0" id="kKcal"></label>
+    <div class="mut" id="kInfo" style="margin:6px 0"></div>
+    <button class="btn peq sec" id="kSalvar">💾 Salvar estas metas na ação</button>
+    <div class="mut">Durante a ação, toque no botão grande a cada volta ou repetição.</div>
+  </div>
+  <div class="card" id="fcGpsCard" style="display:none">
+    <h2>📍 Meta com GPS</h2>
+    <label>Encerrar por<select id="gModo"><option value="primeiro">Tempo ou distância (o que vier primeiro)</option><option value="tempo">Só tempo</option><option value="distancia">Só distância</option></select></label>
+    <div class="lin"><label>Tempo (min)<input type="number" inputmode="decimal" min="1" id="gMin"></label>
+    <label>Distância (km)<input type="number" inputmode="decimal" min="0.1" step="0.1" id="gKm"></label></div>
+    <label>Avisar por voz a cada (km)<input type="number" inputmode="decimal" min="0.1" step="0.1" id="gAv"></label>
+    <label class="chk" style="margin-top:10px"><input type="checkbox" id="gAlvoOn"> Ritmo-alvo: avisar se sair da faixa</label>
+    <div class="lin"><label><span id="gRA">Mais rápido</span><input id="gAlvoA" placeholder="5:00"></label><label><span id="gRB">Mais lento</span><input id="gAlvoB" placeholder="5:30"></label></div>
+    <div class="lin"><label>Meta de subida (m, 0 = sem)<input type="number" inputmode="decimal" min="0" id="gDesn"></label><label>Meta de gasto (kcal, 0 = sem)<input type="number" inputmode="decimal" min="0" id="gKcal"></label></div>
+    <label class="chk" style="margin-top:10px"><input type="checkbox" id="gVolta"> Percurso de ida e volta (a meta é dividida ao meio e o app avisa a hora de retornar)</label>
+    <div class="mut" id="gInfo" style="margin:6px 0"></div>
+    <button class="btn peq sec" id="gSalvar">💾 Salvar estas metas na ação</button>
+    <div class="mut">Mantenha a tela do celular ligada e o GPS ativo; o app evita que a tela apague durante a ação.</div>
+  </div>
+  <div class="card" id="fcTempoCard">
+    <h2>⏱ Meu tempo disponível</h2>
+    <label>Quero fazer em (minutos)<input type="number" inputmode="numeric" min="1" id="fcMin"></label>
+    <div class="mut" id="fcInfo" style="margin:6px 0"></div>
+    <div id="fcPrev"></div>
+  </div>
+  <div class="card" id="fcChkCard">
+    <details id="fcChkD"><summary><b id="fcChkT"></b></summary>
+      <div id="fcChkL" class="cklist"></div>
+      <button class="btn peq sec" id="fcTodos">Marcar todos</button>
+      <button class="btn peq sec" id="fcNenhum">Desmarcar todos</button>
+    </details>
+  </div>
+  <button class="btn peq sec" id="fcFc">❤ Cinta cardíaca: <span id="fcFcT"></span></button>
+  <button class="btn ouro" id="fcIniciar">▶ Começar agora</button>
+  <div class="linha2" id="fcSalvarBox">
+    <button class="btn" id="fcSalvar">💾 Salvar ajuste</button>
+    <button class="btn sec" id="fcCopia">⧉ Salvar como nova</button>
+  </div>
+  <button class="btn sec" id="fcEditar">✎ Editar ação</button>
+</section>
+
+<!-- EXECUÇÃO -->
+<section class="tela fase" id="tExec">
+ <div class="inner">
+  <div class="ex-topo"><span id="exAtiv"></span><span id="exRod"></span></div>
+  <div class="ex-etapa" id="exEtapa"></div>
+  <div class="ex-fase" id="exFase"></div>
+  <div class="ex-dica" id="exDica"></div>
+  <div class="guia" id="guia" data-m="nenhum" data-pos="centro">
+    <div class="m m-alvo"><i class="ponto"></i></div>
+    <div class="m m-orb"><div class="braco" id="braco"><i class="ponto"></i></div></div>
+    <div class="m m-olhos">
+      <svg viewBox="0 0 190 190" width="190" height="190">
+        <g class="olho"><ellipse cx="60" cy="95" rx="30" ry="22" fill="#fff"/><circle cx="60" cy="95" r="10" fill="#041273"/></g>
+        <g class="olho"><ellipse cx="130" cy="95" rx="30" ry="22" fill="#fff"/><circle cx="130" cy="95" r="10" fill="#041273"/></g>
+        <g class="veda" id="vD"><ellipse cx="60" cy="95" rx="36" ry="28" fill="#10133a" stroke="#f5d36b" stroke-width="3"/></g>
+        <g class="veda" id="vE"><ellipse cx="130" cy="95" rx="36" ry="28" fill="#10133a" stroke="#f5d36b" stroke-width="3"/></g>
+      </svg>
+    </div>
+    <div class="m m-lapis"><div class="nariz"></div><div id="lap"></div></div>
+  </div>
+  <div class="ex-cont" id="exCont">0</div>
+  <div class="ex-rep" id="exRep"></div>
+  <div class="barra"><i id="exBar"></i></div>
+  <div class="mut" id="exTotal"></div>
+  <div class="mut" id="exFc"></div>
+  <div class="ex-bt" id="exBt">
+    <button class="btn sec" id="xPausa">⏸ Pausar</button>
+    <button class="btn sec" id="xPular">⏭ Pular fase</button>
+    <button class="btn sec" id="xReiniciar">↺ Reiniciar etapa</button>
+    <button class="btn sec" id="xEtapa">⏩ Pular etapa</button>
+    <button class="btn perigo" id="xParar" style="grid-column:1/3">■ Encerrar</button>
+  </div>
+  <button class="btn ouro" id="xVoltar" style="display:none">Voltar ao início</button>
+ </div>
+</section>
+
+<!-- EXECUÇÃO CRONÔMETRO LIVRE -->
+<section class="tela" id="tLivre">
+ <div class="inner">
+  <div class="ex-topo"><span id="lAtiv"></span><span id="lFc"></span></div>
+  <div class="ex-fase" id="lTit" style="font-size:1.4rem"></div>
+  <div class="g-tempo" id="lTempo" style="font-size:6rem">0:00</div>
+  <div class="g-dist" id="lRec" style="font-size:1.4rem"></div>
+  <div class="mut" id="lExtra"></div>
+  <div class="barra"><i id="lBar"></i></div>
+  <button class="btn ouro c-mais" id="lFim">■ Cheguei ao limite</button>
+  <button class="btn ouro" id="lVoltar" style="display:none">Voltar ao início</button>
+ </div>
+</section>
+
+<!-- EXECUÇÃO CONTAGEM -->
+<section class="tela" id="tCont">
+ <div class="inner">
+  <div class="ex-topo"><span id="kAtiv"></span><span id="kQtdT"></span></div>
+  <div class="ex-fase" id="kTit" style="font-size:1.4rem"></div>
+  <div class="g-tempo" id="kTempo">0:00</div>
+  <div class="g-dist" id="kTotal">0</div>
+  <div class="mut" id="kExtra"></div>
+  <div class="mut" id="kMetaT" style="margin-top:8px"></div><div class="barra"><i id="kBarT"></i></div>
+  <div class="mut" id="kMetaQ"></div><div class="barra"><i id="kBarQ"></i></div>
+  <button class="btn ouro c-mais" id="kMais">＋ 1</button>
+  <div class="ex-bt" id="kBt">
+    <button class="btn sec" id="kMenos">− Desfazer 1</button>
+    <button class="btn sec" id="kPausa">⏸ Pausar</button>
+    <button class="btn perigo" id="kParar" style="grid-column:1/3">■ Encerrar</button>
+  </div>
+  <button class="btn ouro" id="kVoltar" style="display:none">Voltar ao início</button>
+ </div>
+</section>
+
+<!-- EXECUÇÃO GPS -->
+<section class="tela" id="tGps">
+ <div class="inner">
+  <div class="ex-topo"><span id="gAtiv"></span><span id="gSinal"></span></div>
+  <div class="ex-fase" id="gTit" style="font-size:1.6rem"></div>
+  <div class="g-tempo" id="gTempo">0:00</div>
+  <div class="g-dist" id="gDist">0,00 km</div>
+  <div class="ex-rep" id="gRitmo"></div>
+  <div class="ex-rep" id="gAlvo" style="font-size:1rem;min-height:1.3em"></div>
+  <div class="mut" id="gExtra"></div>
+  <div class="mut" id="gMetaT" style="margin-top:12px"></div><div class="barra"><i id="gBarT"></i></div>
+  <div class="mut" id="gMetaD"></div><div class="barra"><i id="gBarD"></i></div>
+  <div class="mut" id="gMsg" style="margin:8px 0"></div>
+  <div class="ex-bt" id="gBt">
+    <button class="btn sec" id="gPausa">⏸ Pausar</button>
+    <button class="btn perigo" id="gParar">■ Encerrar</button>
+  </div>
+  <button class="btn ouro" id="gVoltar" style="display:none">Voltar ao início</button>
+ </div>
+</section>
+
+<script>
+'use strict';
+const VERSAO='2.1';
+const KEY='fenixPersonalV1';
+const $=s=>document.querySelector(s);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone=o=>JSON.parse(JSON.stringify(o));
+const num=(v,min,def)=>{v=parseFloat(v);return Number.isFinite(v)?Math.max(min,v):def};
+const val=n=>Number.isFinite(n)?n:'';
+
+const GUIAS=[['nenhum','Sem desenho'],['centro','Olhar ao centro'],['cima','Olhar para cima'],['baixo','Olhar para baixo'],['esquerda','Olhar à esquerda'],['direita','Olhar à direita'],['cima-direita','Diagonal superior direita'],['cima-esquerda','Diagonal superior esquerda'],['baixo-direita','Diagonal inferior direita'],['baixo-esquerda','Diagonal inferior esquerda'],['orbita-h','Órbita horária'],['orbita-a','Órbita anti-horária'],['veda-dir','Vedar olho direito'],['veda-esq','Vedar olho esquerdo'],['aproxima','Aproximar o objeto'],['segura','Segurar na ponta do nariz'],['afasta','Afastar o objeto'],['pisca','Piscar']];
+const SONS=[['nenhum','Sem som'],['bumbo','Bumbo'],['bipe','Bipe'],['tic','Tic']];
+const POS=['centro','cima','baixo','esquerda','direita','cima-direita','cima-esquerda','baixo-direita','baixo-esquerda'];
+
+/* ---------- Modelos de fábrica ---------- */
+const F=(nome,seg,o={})=>({id:uid(),nome,dica:o.dica||'',fala:o.fala||'',seg,som:o.som||'nenhum',voz:!!o.voz,guia:o.guia||'nenhum'});
+const E=(nome,fases,reps,descanso)=>({id:uid(),nome,fases,reps,descanso});
+/* Calistenia: séries x repetições, descanso entre séries; lados (direita/esquerda) sempre na mesma repetição. */
+function calistenia(){
+  const SD=d=>[F('Sobe',1.5,{som:'bumbo',dica:d}),F('Desce',1.5,{dica:d})];
+  const LAD=(a,b,seg,voz,d)=>[F(a,seg,{som:'bumbo',voz,fala:a,dica:d}),F(b,seg,{voz,fala:b,dica:d})];
+  const X=(nome,grupo,series,reps,ds,fases,o={})=>({id:uid(),nome,grupo,series,reps,descSerie:ds,descanso:30,fases,contar:!!o.contar,on:!!o.on});
+  const SU=(n,g,se,r,ds,d,o)=>X(n,g,se,r,ds,SD(d),Object.assign({contar:true},o));
+  const PE='Pernas e glúteos',BR='Braços, peito e costas',CO='Abdômen e core',CA='Cardio';
+  const et=[
+   SU('Agachamento livre',PE,5,15,180,'Desça o quadril como se fosse sentar numa cadeira',{on:true}),
+   X('Afundo (passada)',PE,3,10,60,LAD('Direita','Esquerda',3,true,'Passo à frente e joelhos quase tocando o chão'),{on:true}),
+   SU('Elevação de quadril (ponte)',PE,3,15,60,'Deitado de costas, suba o quadril'),
+   SU('Agachamento sumô',PE,3,15,60,'Pernas afastadas, pés para fora'),
+   SU('Panturrilha em pé',PE,3,20,45,'Suba e desça na ponta dos pés'),
+   SU('Flexão de braço tradicional',BR,3,10,60,'Empurre o corpo para cima',{on:true}),
+   SU('Flexão com joelhos apoiados',BR,3,10,60,'Versão mais leve da flexão'),
+   SU('Flexão na parede',BR,3,15,45,'A versão mais leve de todas'),
+   SU('Mergulho no banco',BR,3,12,60,'Mãos no banco, desça o quadril',{on:true}),
+   X('Prancha toca-ombro',BR,3,10,60,LAD('Mão direita','Mão esquerda',2,true,'Na posição de flexão, toque o ombro oposto')),
+   X('Prancha abdominal',CO,3,1,45,[F('Segure',30,{som:'bumbo',voz:true,dica:'Antebraços e pontas dos pés, corpo reto'})],{on:true}),
+   SU('Abdominal crunch',CO,3,15,45,'Tire só os ombros do chão',{on:true}),
+   X('Abdominal tesoura',CO,3,12,45,LAD('Perna direita','Perna esquerda',1.5,false,'Alterne as pernas sem tocar o chão')),
+   X('Perdigueiro',CO,3,10,60,LAD('Braço direito, perna esquerda','Braço esquerdo, perna direita',3,true,'De quatro apoios, estique braço e perna opostos'),{on:true}),
+   X('Polichinelo',CA,3,20,45,[F('Abre',1,{som:'bumbo',dica:'Salte abrindo braços e pernas'}),F('Fecha',1,{dica:'Salte fechando'})],{contar:true,on:true}),
+   X('Corrida estacionária',CA,3,20,45,LAD('Joelho direito','Joelho esquerdo',1,false,'Eleve os joelhos sem sair do lugar')),
+   SU('Burpee',CA,3,8,90,'Agache, prancha, volte e salte'),
+   X('Escalador',CA,3,16,45,LAD('Joelho direito','Joelho esquerdo',1,false,'Na posição de prancha, traga os joelhos ao peito')),
+   X('Prancha lateral',CO,3,1,45,[F('Lado direito',20,{som:'bumbo',voz:true,fala:'Lado direito',dica:'Apoie o antebraço, corpo alinhado'}),F('Lado esquerdo',20,{som:'bumbo',voz:true,fala:'Lado esquerdo',dica:'Apoie o antebraço, corpo alinhado'})]),
+   SU('Superman',CO,3,12,45,'De bruços, eleve braços e pernas'),
+   X('Abdominal bicicleta',CO,3,16,45,LAD('Cotovelo direito','Cotovelo esquerdo',1.5,false,'Cotovelo ao joelho oposto')),
+   SU('Agachamento com salto',PE,3,12,60,'Agache e salte'),
+   SU('Pé de chinelo',PE,5,20,180,'Exemplo do Cristiano: 5 séries de 20, descanso de 3 minutos')
+  ];
+  return {id:'calistenia',nome:'Calistenia',icone:'🤸',desc:'Marque os exercícios do dia; séries × repetições com descanso entre séries',tipo:'calistenia',divisao:'proporcional',preparo:10,rodadas:1,etapas:et};
+}
+function seed(){
+  const lamp=()=>F('Lampejo',4,{dica:'Pisque 5 vezes',fala:'Pisque cinco vezes',voz:true,guia:'pisca'});
+  const ctr=()=>F('Centro',2,{dica:'Olhe à frente',som:'bumbo',guia:'centro'});
+  const P=(n,d,g)=>F(n,2,{dica:d,som:'bumbo',guia:g});
+  const ocular={id:'ocular',nome:'Exercício Ocular',icone:'👁️',desc:'Rotina de 8 etapas para os músculos dos olhos',preparo:10,rodadas:2,etapas:[
+    E('Eixo Vertical',[P('Zênite','Olhe para cima','cima'),ctr(),P('Nadir','Olhe para baixo','baixo'),ctr(),lamp()],30,30),
+    E('Eixo Horizontal',[P('Oriente','Olhe à direita','direita'),ctr(),P('Ocidente','Olhe à esquerda','esquerda'),ctr(),lamp()],30,30),
+    E('Diagonal Aurora',[P('Aurora','Diagonal: cima à direita','cima-direita'),ctr(),P('Poente','Diagonal: baixo à esquerda','baixo-esquerda'),ctr(),lamp()],30,30),
+    E('Diagonal Crepúsculo',[P('Crepúsculo','Diagonal: cima à esquerda','cima-esquerda'),ctr(),P('Alvorada','Diagonal: baixo à direita','baixo-direita'),ctr(),lamp()],30,30),
+    E('Órbita Horária',[F('Volta',3,{dica:'Gire os olhos no sentido horário',som:'bumbo',guia:'orbita-h'})],60,30),
+    E('Órbita Anti-horária',[F('Volta',3,{dica:'Gire os olhos no sentido anti-horário',som:'bumbo',guia:'orbita-a'})],60,30),
+    E('Alternância Solar',[F('Véu Direito',3,{dica:'Vede o olho direito',fala:'Direita',voz:true,guia:'veda-dir'}),F('Véu Esquerdo',3,{dica:'Vede o olho esquerdo',fala:'Esquerda',voz:true,guia:'veda-esq'})],60,30),
+    E('Convergência',[F('Aproximação',4,{dica:'Traga o lápis devagar até o nariz',som:'bumbo',guia:'aproxima'}),F('Ápice',3,{dica:'Segure na ponta do nariz',guia:'segura'}),F('Retorno',4,{dica:'Volte o lápis a 20 cm',som:'bumbo',guia:'afasta'})],60,30)
+  ]};
+  const academia={id:'academia',nome:'Academia Cadenciada',icone:'🏋️',desc:'Sobe 2 s · Segura 2 s · Baixa 2 s · Descansa 5 s',preparo:10,rodadas:3,etapas:[
+    E('Série',[F('Sobe',2,{voz:true,som:'bumbo'}),F('Segura',2,{voz:true}),F('Baixa',2,{voz:true}),F('Descansa',5,{voz:true})],12,60)
+  ]};
+  const coluna={id:'coluna',nome:'Alongamento de Coluna',icone:'🧘',desc:'Esquerda · Segura · Normal · Direita · Segura · Normal',preparo:10,rodadas:1,etapas:[
+    E('Torção suave',[F('Esquerda',5,{voz:true,guia:'esquerda'}),F('Segura',15,{voz:true}),F('Normal',5,{voz:true,guia:'centro'}),F('Direita',5,{voz:true,guia:'direita'}),F('Segura',15,{voz:true}),F('Normal',5,{voz:true,guia:'centro'})],3,0)
+  ]};
+  const pomodoro={id:'pomodoro',nome:'Pomodoro Clássico',icone:'🍅',desc:'25 min de foco + 5 min de pausa, 4 ciclos',preparo:5,rodadas:1,etapas:[
+    E('Ciclo',[F('Foco',1500,{voz:true,som:'bipe',dica:'Concentre-se numa única tarefa'}),F('Pausa',300,{voz:true,som:'bipe',dica:'Levante, respire, hidrate-se'})],4,0)
+  ]};
+  ocular.etapas.forEach(e=>{if(/^Diagonal /.test(e.nome))e.par='diag';else if(/^Órbita /.test(e.nome))e.par='orb'});
+  const GP=(id,nome,icone,esporte,desc,min,km,av)=>({id,nome,icone,desc,tipo:'gps',esporte,gps:{modo:'primeiro',metaMin:min,metaKm:km,avisoKm:av,volta:true},preparo:0,rodadas:1,etapas:[]});
+  return [ocular,academia,coluna,pomodoro,calistenia(),
+    GP('caminhada','Caminhada','🚶','caminhada','Meta por tempo ou distância, medida pelo GPS',40,3,1),
+    GP('corrida','Corrida','🏃','corrida','Meta por tempo ou distância, medida pelo GPS',30,5,1),
+    GP('ciclismo','Ciclismo','🚴','ciclismo','Meta por tempo ou distância, medida pelo GPS',30,10,2)];
+}
+
+/* ---------- Estado e persistência ---------- */
+const CFG0={nome:'Cristiano',voz:true,vozId:'',vel:1.05,tom:1,volVoz:1,volSom:0.9,vibrar:true,autoIniciar:false,estilo:'amigo',incentivo:true,genero:'todas',favoritos:null,peso:null,fcMax:null};
+let ST=load();
+function load(){
+  try{const j=JSON.parse(localStorage.getItem(KEY));
+    if(j&&Array.isArray(j.atividades))return migrar(j);
+  }catch(e){}
+  const at=seed();
+  return {cfg:Object.assign({},CFG0),atividades:at,uso:{},ult:{},vistos:at.map(a=>a.id)};
+}
+/* Acrescenta modelos novos (sem ressuscitar os que o usuário apagou) e garante pares simétricos. */
+function migrar(j){
+  j.cfg=Object.assign({},CFG0,j.cfg);j.uso=j.uso||{};j.ult=j.ult||{};
+  if(!Array.isArray(j.vistos))j.vistos=['ocular','academia','coluna','pomodoro'];
+  seed().forEach(m=>{if(!j.vistos.includes(m.id)){j.vistos.push(m.id);if(!j.atividades.some(a=>a.id===m.id))j.atividades.push(m)}});
+  j.atividades.forEach(a=>{
+    if(a.id==='ocular')a.etapas.forEach(e=>{if(e.par===undefined){if(/^Diagonal /.test(e.nome))e.par='diag';else if(/^Órbita /.test(e.nome))e.par='orb'}});
+    igualaPares(a);
+  });
+  return j;
+}
+function igualaPares(a){
+  const g={};a.etapas.forEach(e=>{if(e.par)(g[e.par]=g[e.par]||[]).push(e)});
+  Object.values(g).forEach(l=>['reps','series','descSerie'].forEach(k=>{const m=Math.max(...l.map(e=>e[k]||0));if(m>0)l.forEach(e=>e[k]=m)}));
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}}
+const C=()=>ST.cfg;
+
+/* ---------- Tempo ---------- */
+const somaF=e=>e.fases.reduce((s,f)=>s+(f.seg>0?f.seg:0),0);
+const serN=e=>Math.max(1,Math.round(e.series||1));
+const durEtapa=e=>serN(e)*e.reps*somaF(e)+(serN(e)-1)*(e.descSerie||0);
+const ativas=a=>a.etapas.filter(e=>e.on!==false);
+const rs=e=>serN(e)>1?serN(e)+'×'+e.reps:e.reps+' rep.';
+/* Modalidades com GPS: vmax (m/s) filtra saltos impossíveis; vel (km/h) estima a duração; ritmo: 'pace' (min/km) ou 'kmh'. */
+const ESPORTES={
+ caminhada:{n:'Caminhada',i:'🚶',vmax:6,vel:5,ritmo:'pace'},
+ corrida:{n:'Corrida',i:'🏃',vmax:11,vel:9,ritmo:'pace'},
+ trilha:{n:'Trilha',i:'🥾',vmax:6,vel:4,ritmo:'pace'},
+ ciclismo:{n:'Ciclismo',i:'🚴',vmax:28,vel:20,ritmo:'kmh'},
+ canoagem:{n:'Canoagem',i:'🛶',vmax:8,vel:7,ritmo:'kmh'},
+ remo:{n:'Remo',i:'🚣',vmax:8,vel:8,ritmo:'kmh'},
+ patins:{n:'Patins',i:'🛼',vmax:16,vel:15,ritmo:'kmh'},
+ outra:{n:'Outra modalidade',i:'📍',vmax:30,vel:10,ritmo:'kmh'}
+};
+const espo=a=>ESPORTES[a.esporte]||ESPORTES.outra;
+const pl=(n,u)=>n===1?u:/ão$/.test(u)?u.slice(0,-2)+'ões':/[aeiou]$/.test(u)?u+'s':u+'es';
+const qTxt=(v,c)=>(+v).toLocaleString('pt-BR',{maximumFractionDigits:2})+(c.un?' '+c.un:' '+pl(+v,c.unid));
+const metaTxtC=c=>c.modo==='tempo'?c.metaMin+' min':c.modo==='quantidade'?qTxt(c.metaQtd,c):c.metaMin+' min ou '+qTxt(c.metaQtd,c);
+const kmTxt=k=>(+k).toLocaleString('pt-BR',{maximumFractionDigits:2})+' km';
+const metaTxt=g=>g.modo==='tempo'?g.metaMin+' min':g.modo==='distancia'?kmTxt(g.metaKm):g.metaMin+' min ou '+kmTxt(g.metaKm);
+const resumo=a=>a.tipo==='gps'?metaTxt(a.gps):a.tipo==='contador'?metaTxtC(a.cont):a.tipo==='livre'?(a.livre.meta>0?'meta '+fmt(a.livre.meta):'até o limite'):fmt(durAtiv(a));
+const infoAtiv=a=>a.tipo==='gps'?'GPS · '+metaTxt(a.gps):a.tipo==='contador'?'Contagem · '+metaTxtC(a.cont):a.tipo==='livre'?'Cronômetro · '+resumo(a):ativas(a).length+' etapa(s) · '+a.rodadas+'x · '+fmt(durAtiv(a));
+function durAtiv(a){
+  if(a.tipo==='gps'){const g=a.gps;return g.modo==='distancia'?g.metaKm/espo(a).vel*3600:g.metaMin*60}
+  if(a.tipo==='contador')return a.cont.metaMin*60;
+  if(a.tipo==='livre')return a.livre.meta||60;
+  let t=a.preparo||0;const at=ativas(a);
+  for(let r=0;r<a.rodadas;r++)at.forEach((e,i)=>{
+    t+=durEtapa(e);
+    if(!(r===a.rodadas-1&&i===at.length-1))t+=e.descanso||0;
+  });
+  return t;
+}
+function fmt(s){s=Math.round(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;
+  if(h)return h+'h'+String(m).padStart(2,'0')+'min';
+  if(m)return m+' min'+(x&&m<5?' '+x+'s':'');
+  return x+' s'}
+const mmss=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+
+/* ---------- Navegação ---------- */
+function ir(id){
+  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('on'));
+  $('#'+id).classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='tHome')rHome();
+  if(id==='tCat')rCat();
+  if(id==='tConf')rConf();
+  if(id==='tSobre')rSobre();
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>ir(b.dataset.go));
+
+/* ---------- Home ---------- */
+/* Botões fixos: automático = 8 mais usadas; manual = escolhidas em Configurações (até 8). */
+function favLista(){
+  const f=C().favoritos;
+  if(Array.isArray(f))return f.map(id=>ST.atividades.find(a=>a.id===id)).filter(Boolean).slice(0,8);
+  return ST.atividades.map((a,i)=>({a,i,u:ST.uso[a.id]||0})).sort((x,y)=>y.u-x.u||x.i-y.i).slice(0,8).map(x=>x.a);
+}
+function rHome(){
+  const n=C().nome;
+  $('#hSaud').textContent=(n?n+', ':'')+'pronto para a próxima ação?';
+  const lista=favLista(),man=Array.isArray(C().favoritos);
+  const slots=man?Math.max(1,lista.length):8;
+  $('#hFavs').className='favs'+(slots>4?' mini':'');
+  let h='';
+  for(let k=0;k<slots;k++){
+    const a=lista[k],u=a?ST.uso[a.id]||0:0;
+    h+=a?`<button class="fav" data-run="${esc(a.id)}"><span class="ic">${esc(a.icone||'⚡')}</span><b>${esc(a.nome)}</b><small>${resumo(a)}${u?' · '+u+'x':''}</small></button>`
+        :`<button class="fav vazio" data-nova="1"><span class="ic">＋</span><b>Nova ação</b></button>`;
+  }
+  $('#hFavs').innerHTML=h;
+  document.querySelectorAll('[data-run]').forEach(b=>b.onclick=()=>abrirAtiv(b.dataset.run));
+  document.querySelectorAll('[data-nova]').forEach(b=>b.onclick=()=>abrirNovo());
+}
+$('#bExec').onclick=()=>ir('tCat');
+$('#bNova').onclick=$('#bNova2').onclick=()=>abrirNovo();
+$('#bConf').onclick=()=>ir('tConf');
+
+/* ---------- Catálogo ---------- */
+function rCat(){
+  if(!ST.atividades.length){$('#cLista').innerHTML='<div class="card mut">Nenhuma ação cadastrada. Crie uma nova ou restaure os modelos em Configurações.</div>';return}
+  $('#cLista').innerHTML=ST.atividades.map(a=>{
+    const ult=ST.ult[a.id]?new Date(ST.ult[a.id]).toLocaleDateString('pt-BR'):'nunca';
+    return `<div class="card"><div class="it"><span class="ic">${esc(a.icone||'⚡')}</span><div class="tx"><b>${esc(a.nome)}</b><small>${infoAtiv(a)} · última: ${ult}</small>${a.desc?`<small>${esc(a.desc)}</small>`:''}</div></div>
+    <button class="btn peq ouro" data-run="${esc(a.id)}">▶ Abrir</button>
+    <button class="btn peq sec" data-aj="${esc(a.id)}">⏱ Ajustar tempo</button>
+    <button class="btn peq sec" data-ed="${esc(a.id)}">✎ Editar</button>
+    <button class="btn peq sec" data-dup="${esc(a.id)}">⧉ Duplicar</button>
+    <button class="btn peq perigo" data-del="${esc(a.id)}">🗑</button></div>`}).join('');
+  document.querySelectorAll('#cLista [data-run]').forEach(b=>b.onclick=()=>abrirAtiv(b.dataset.run));
+  document.querySelectorAll('#cLista [data-ed]').forEach(b=>b.onclick=()=>abrirEd(b.dataset.ed));
+  document.querySelectorAll('#cLista [data-aj]').forEach(b=>b.onclick=()=>abrirFicha(b.dataset.aj));
+  document.querySelectorAll('#cLista [data-dup]').forEach(b=>b.onclick=()=>{
+    const a=ST.atividades.find(x=>x.id===b.dataset.dup);if(!a)return;
+    const c=clone(a);c.id=uid();c.nome+=' (cópia)';ST.atividades.push(c);save();rCat()});
+  document.querySelectorAll('#cLista [data-del]').forEach(b=>b.onclick=()=>{
+    const a=ST.atividades.find(x=>x.id===b.dataset.del);
+    if(a&&confirm('Excluir "'+a.nome+'"?')){ST.atividades=ST.atividades.filter(x=>x!==a);save();rCat()}});
+}
+
+/* ---------- Assistente: nova ação ---------- */
+const TIPOS=[
+ {k:'gps',i:'🛰️',n:'Distância ao ar livre (GPS)',d:'Trilha, canoagem, remo, patins, ciclismo… o celular mede o percurso'},
+ {k:'cont',i:'🔢',n:'Voltas ou contagem',d:'Piscina, pista, pular corda… você toca a cada volta ou repetição'},
+ {k:'cad',i:'🎵',n:'Cadência por voz',d:'Movimentos com ritmo: sobe, segura, desce…'},
+ {k:'ser',i:'💪',n:'Séries e repetições',d:'Força e calistenia, com descanso entre séries'},
+ {k:'int',i:'⚡',n:'Intervalado (esforço e descanso)',d:'HIIT, Tabata, tiros'},
+ {k:'res',i:'🌬️',n:'Respiração e relaxamento',d:'Inspire, segure, expire, no ritmo'},
+ {k:'foc',i:'🍅',n:'Foco por tempo',d:'Estudo, leitura, Pomodoro'},
+ {k:'liv',i:'⏱️',n:'Resistência até o limite',d:'Prancha, parede, barra: cronômetro com recorde'}
+];
+const CONTS={
+ piscina:{n:'Natação (piscina)',i:'🏊',unid:'volta',valor:25,un:'m',metaQtd:1000,aviso:100,min:30,d:'Cada volta = 1 comprimento da piscina (25 m)'},
+ pista:{n:'Corrida na pista',i:'🏃',unid:'volta',valor:400,un:'m',metaQtd:5000,aviso:1000,min:30,d:'Cada volta = 400 m'},
+ corda:{n:'Pular corda',i:'🪢',unid:'salto',valor:1,un:'',metaQtd:300,aviso:50,min:10,d:'Conte os saltos'},
+ passos:{n:'Passos (sensor do celular)',i:'👣',unid:'passo',valor:1,un:'',metaQtd:5000,aviso:1000,min:60,d:'Conta os passos pelo sensor de movimento',auto:'passos'},
+ outra:{n:'',i:'🔢',unid:'repetição',valor:1,un:'',metaQtd:100,aviso:25,min:20,d:'Contagem livre'}
+};
+const CONT_ROT={piscina:'Natação na piscina (25 m)',pista:'Corrida na pista (400 m)',corda:'Pular corda (contagem de saltos)',passos:'Passos pelo sensor do celular',outra:'Outra contagem'};
+let NV=null;
+function abrirNovo(){NV=null;rNovo();ir('tNovo')}
+function rNovo(){
+  const b=(a,i,n,d)=>`<button class="btn sec nv" ${a}><span class="nvi">${i}</span><span><b>${n}</b><small>${d||''}</small></span></button>`;
+  if(!NV){$('#nvPerg').textContent='O que esta modalidade vai medir?';$('#nvOp').innerHTML=TIPOS.map(t=>b('data-nv="'+t.k+'"',t.i,t.n,t.d)).join('')}
+  else if(NV==='gps'){$('#nvPerg').textContent='Qual é a modalidade?';$('#nvOp').innerHTML=Object.entries(ESPORTES).map(([k,e])=>b('data-sub="'+k+'"',e.i,e.n,'')).join('')}
+  else{$('#nvPerg').textContent='O que será contado?';$('#nvOp').innerHTML=Object.entries(CONTS).map(([k,c])=>b('data-sub="'+k+'"',c.i,CONT_ROT[k],c.d)).join('')}
+}
+$('#nvVolta').onclick=()=>{if(NV){NV=null;rNovo()}else ir('tHome')};
+$('#nvOp').addEventListener('click',ev=>{
+  const x=ev.target.closest('button');if(!x)return;
+  if(x.dataset.sub)return abrirEd(null,modelo(NV,x.dataset.sub));
+  const k=x.dataset.nv;
+  if(k==='gps'||k==='cont'){NV=k;rNovo();window.scrollTo(0,0)}else abrirEd(null,modelo(k));
+});
+function modelo(k,sub){
+  const base={id:uid(),nome:'',icone:'⚡',desc:'',preparo:10,rodadas:1,etapas:[]};
+  if(k==='gps'){const e=ESPORTES[sub];return Object.assign(base,{nome:sub==='outra'?'':e.n,icone:e.i,desc:'Meta por tempo ou distância, medida pelo GPS',tipo:'gps',esporte:sub,preparo:0,gps:{modo:'primeiro',metaMin:60,metaKm:5,avisoKm:1,volta:true,alvoOn:false,metaDesn:0,metaKcal:0}})}
+  if(k==='cont'){const c=CONTS[sub];return Object.assign(base,{nome:c.n,icone:c.i,desc:c.d,tipo:'contador',preparo:0,cont:{unid:c.unid,valor:c.valor,un:c.un,modo:'primeiro',metaMin:c.min,metaQtd:c.metaQtd,aviso:c.aviso,auto:c.auto||'',metaKcal:0}})}
+  if(k==='liv')return Object.assign(base,{nome:'Prancha (resistência)',icone:'⏱️',desc:'Quanto tempo você aguenta? O app guarda o recorde',tipo:'livre',preparo:0,livre:{meta:60,aviso:15}});
+  const ET=(n,f,r,d,o)=>Object.assign(E(n,f,r,d),o||{});
+  if(k==='ser')return Object.assign(base,{nome:'Treino de força',icone:'💪',desc:'Séries e repetições com descanso entre séries',etapas:[ET('Exercício 1',[F('Sobe',1.5,{som:'bumbo'}),F('Desce',1.5)],12,30,{series:3,descSerie:60,contar:true})]});
+  if(k==='int')return Object.assign(base,{nome:'Intervalado',icone:'⚡',desc:'Esforço e descanso em rodadas (estilo Tabata)',met:9,etapas:[ET('Rodadas',[F('Esforço',20,{voz:true,som:'bumbo',dica:'Máximo!'}),F('Descanso',10,{voz:true})],8,0)]});
+  if(k==='res')return Object.assign(base,{nome:'Respiração',icone:'🌬️',desc:'Respiração em caixa: 4-4-4-4',met:1.5,etapas:[ET('Ciclos',[F('Inspire',4,{voz:true}),F('Segure',4,{voz:true}),F('Expire',4,{voz:true}),F('Segure',4,{voz:true})],10,0)]});
+  if(k==='foc')return Object.assign(base,{nome:'Foco',icone:'🍅',desc:'Períodos de foco com pausa',met:1.3,preparo:5,etapas:[ET('Ciclo',[F('Foco',1500,{voz:true,som:'bipe'}),F('Pausa',300,{voz:true,som:'bipe'})],4,0)]});
+  return novaAtiv();
+}
+
+/* ---------- Editor ---------- */
+let D=null;
+function novaAtiv(){return {id:uid(),nome:'',icone:'⚡',desc:'',preparo:10,rodadas:1,etapas:[E('Etapa 1',[F('Ação',5,{voz:true,som:'bumbo'}),F('Descansa',5,{voz:true})],10,30)]}}
+function abrirEd(id,pre){
+  D=id?clone(ST.atividades.find(a=>a.id===id)):(pre||novaAtiv());
+  D._novo=!id;
+  $('#edTit').textContent=id?'Editar ação':'Nova ação';
+  rEd();ir('tEd');
+}
+const opts=(arr,v)=>arr.map(([k,n])=>`<option value="${k}"${k===v?' selected':''}>${n}</option>`).join('');
+function rEd(){
+  const a=D;
+  let h=`<div class="card"><label>Nome da ação<input data-a="nome" value="${esc(a.nome)}" placeholder="Ex.: Exercício Ocular"></label>
+  <div class="lin"><label>Ícone<input data-a="icone" value="${esc(a.icone)}" maxlength="4"></label>
+  <label>Preparo (s)<input type="number" inputmode="decimal" min="0" data-a="preparo" value="${val(a.preparo)}"></label>
+  <label>Rodadas / séries<input type="number" inputmode="numeric" min="1" data-a="rodadas" value="${val(a.rodadas)}"></label></div>
+  <label>Descrição<input data-a="desc" value="${esc(a.desc)}"></label>
+  <label>Ao ajustar o tempo, dividir entre as etapas<select data-a="divisao"><option value="proporcional"${a.divisao!=='igual'?' selected':''}>Proporcional ao que já está montado</option><option value="igual"${a.divisao==='igual'?' selected':''}>Tempo igual para cada etapa</option></select></label>
+  <label>Zona de frequência cardíaca (com cinta)<select data-a="fcZona">${['Sem zona','Z1 · muito leve (50–60%)','Z2 · leve (60–70%)','Z3 · moderada (70–80%)','Z4 · forte (80–90%)','Z5 · máxima (90–100%)'].map((t,i)=>`<option value="${i}"${(+a.fcZona||0)===i?' selected':''}>${t}</option>`).join('')}</select></label></div>`;
+  if(a.tipo==='gps')h+=`<div class="card"><h2>📍 Meta com GPS</h2>
+    <label>Modalidade<select data-a="esporte">${Object.entries(ESPORTES).map(([k,e])=>`<option value="${k}"${a.esporte===k?' selected':''}>${e.i} ${e.n}</option>`).join('')}</select></label>
+    <label>Encerrar por<select data-g="modo"><option value="primeiro"${a.gps.modo==='primeiro'?' selected':''}>Tempo ou distância (o que vier primeiro)</option><option value="tempo"${a.gps.modo==='tempo'?' selected':''}>Só tempo</option><option value="distancia"${a.gps.modo==='distancia'?' selected':''}>Só distância</option></select></label>
+    <div class="lin"><label>Tempo (min)<input type="number" inputmode="decimal" data-g="metaMin" value="${val(a.gps.metaMin)}"></label><label>Distância (km)<input type="number" inputmode="decimal" step="0.1" data-g="metaKm" value="${val(a.gps.metaKm)}"></label></div>
+    <label>Avisar a cada (km)<input type="number" inputmode="decimal" step="0.1" data-g="avisoKm" value="${val(a.gps.avisoKm)}"></label>
+    <label class="chk" style="margin-top:8px"><input type="checkbox" data-g="volta"${a.gps.volta!==false?' checked':''}> Percurso de ida e volta</label>
+    <label class="chk" style="margin-top:8px"><input type="checkbox" data-g="alvoOn"${a.gps.alvoOn?' checked':''}> Ritmo-alvo: avisar se sair da faixa</label>
+    <div class="lin"><label>${ehPace(a)?'Mais rápido (min/km)':'Mínima (km/h)'}<input data-g="alvoA" value="${esc(alvoFmt(a,a.gps.alvoA))}" placeholder="${ehPace(a)?'5:00':'18'}"></label><label>${ehPace(a)?'Mais lento (min/km)':'Máxima (km/h)'}<input data-g="alvoB" value="${esc(alvoFmt(a,a.gps.alvoB))}" placeholder="${ehPace(a)?'5:30':'22'}"></label></div>
+    <div class="lin"><label>Meta de subida (m)<input type="number" inputmode="decimal" data-g="metaDesn" value="${val(+a.gps.metaDesn||0)}"></label><label>Meta de gasto (kcal)<input type="number" inputmode="decimal" data-g="metaKcal" value="${val(+a.gps.metaKcal||0)}"></label></div></div>`;
+  if(a.tipo==='contador'){const c=a.cont;h+=`<div class="card"><h2>🔢 Contagem</h2>
+    <div class="lin"><label>O que se conta (singular)<input data-c="unid" value="${esc(c.unid)}" placeholder="volta, salto…"></label>
+    <label>Valor de cada toque<input type="number" inputmode="decimal" step="any" data-c="valor" value="${val(c.valor)}"></label></div>
+    <label>Medida do valor<select data-c="un"><option value=""${!c.un?' selected':''}>Só contagem (sem medida)</option><option value="m"${c.un==='m'?' selected':''}>Metros (m)</option><option value="km"${c.un==='km'?' selected':''}>Quilômetros (km)</option></select></label>
+    <label>Encerrar por<select data-c="modo"><option value="primeiro"${c.modo==='primeiro'?' selected':''}>Tempo ou quantidade (o que vier primeiro)</option><option value="tempo"${c.modo==='tempo'?' selected':''}>Só tempo</option><option value="quantidade"${c.modo==='quantidade'?' selected':''}>Só quantidade</option></select></label>
+    <div class="lin"><label>Tempo (min)<input type="number" inputmode="decimal" data-c="metaMin" value="${val(c.metaMin)}"></label><label>Quantidade<input type="number" inputmode="decimal" data-c="metaQtd" value="${val(c.metaQtd)}"></label></div>
+    <label>Avisar a cada<input type="number" inputmode="decimal" data-c="aviso" value="${val(c.aviso)}"></label>
+    <label>Meta de gasto (kcal, 0 = sem)<input type="number" inputmode="decimal" data-c="metaKcal" value="${val(+c.metaKcal||0)}"></label>
+    <label>Contagem automática<select data-c="auto"><option value=""${!c.auto?' selected':''}>Não (eu toco no botão)</option><option value="passos"${c.auto==='passos'?' selected':''}>Passos pelo sensor do celular</option></select></label></div>`}
+  if(a.tipo==='livre'){const l=a.livre;h+=`<div class="card"><h2>⏱ Resistência</h2>
+    <div class="lin"><label>Meta (segundos, 0 = sem)<input type="number" inputmode="numeric" data-l="meta" value="${val(l.meta)}"></label><label>Avisar a cada (s)<input type="number" inputmode="numeric" data-l="aviso" value="${val(l.aviso)}"></label></div></div>`}
+  a.etapas.forEach((e,i)=>{
+    h+=`<details class="card et" data-ei="${i}"${e._open?' open':''}><summary>${e.on===false?'☐':'☑'} ${i+1}. ${esc(e.nome)} <small>· ${serN(e)>1?serN(e)+'×':''}${e.reps}x · ${fmt(durEtapa(e))}</small></summary>
+    <label>Nome da etapa<input data-e="${i}" data-k="nome" value="${esc(e.nome)}"></label>
+    <div class="lin"><label>Séries<input type="number" inputmode="numeric" min="1" data-e="${i}" data-k="series" value="${val(serN(e))}"></label>
+    <label>Repetições por série<input type="number" inputmode="numeric" min="1" data-e="${i}" data-k="reps" value="${val(e.reps)}"></label></div>
+    <div class="lin"><label>Descanso entre séries (s)<input type="number" inputmode="decimal" min="0" data-e="${i}" data-k="descSerie" value="${val(e.descSerie||0)}"></label>
+    <label>Descanso depois (s)<input type="number" inputmode="decimal" min="0" data-e="${i}" data-k="descanso" value="${val(e.descanso)}"></label></div>
+    <div class="lin"><label>Grupo (ex.: Pernas)<input data-e="${i}" data-k="grupo" value="${esc(e.grupo||'')}"></label>
+    <label>Par simétrico (mesmo nome = mesmas repetições)<input data-e="${i}" data-k="par" value="${esc(e.par||'')}" placeholder="ex.: lados"></label></div>
+    <label>Carga (kg, opcional)<input type="number" inputmode="decimal" step="any" data-e="${i}" data-k="carga" value="${val(+e.carga||0)}"></label>
+    <label class="chk"><input type="checkbox" data-e="${i}" data-k="on"${e.on!==false?' checked':''}> Incluir esta etapa ao executar</label>
+    <label class="chk"><input type="checkbox" data-e="${i}" data-k="contar"${e.contar?' checked':''}> Contar as repetições em voz alta</label>`;
+    e.fases.forEach((f,j)=>{
+      h+=`<div class="fase-ed"><b>Fase ${j+1}</b>
+      <div class="lin"><label class="gr">Nome<input data-e="${i}" data-f="${j}" data-k="nome" value="${esc(f.nome)}"></label>
+      <label>Segundos<input type="number" inputmode="decimal" min="0.5" step="0.5" data-e="${i}" data-f="${j}" data-k="seg" value="${val(f.seg)}"></label></div>
+      <label>Dica na tela<input data-e="${i}" data-f="${j}" data-k="dica" value="${esc(f.dica)}"></label>
+      <label>Fala (vazio = fala o nome)<input data-e="${i}" data-f="${j}" data-k="fala" value="${esc(f.fala)}"></label>
+      <div class="lin"><label>Som<select data-e="${i}" data-f="${j}" data-k="som">${opts(SONS,f.som)}</select></label>
+      <label>Desenho<select data-e="${i}" data-f="${j}" data-k="guia">${opts(GUIAS,f.guia)}</select></label></div>
+      <label class="chk"><input type="checkbox" data-e="${i}" data-f="${j}" data-k="voz"${f.voz?' checked':''}> Falar esta fase</label>
+      <button class="btn peq sec" data-act="upF" data-e="${i}" data-f="${j}">↑</button>
+      <button class="btn peq sec" data-act="dnF" data-e="${i}" data-f="${j}">↓</button>
+      <button class="btn peq perigo" data-act="delF" data-e="${i}" data-f="${j}">✕ fase</button></div>`;
+    });
+    h+=`<div style="margin-top:12px"><button class="btn peq" data-act="addF" data-e="${i}">＋ Fase</button>
+    <button class="btn peq sec" data-act="upE" data-e="${i}">↑ etapa</button>
+    <button class="btn peq sec" data-act="dnE" data-e="${i}">↓ etapa</button>
+    <button class="btn peq sec" data-act="dupE" data-e="${i}">⧉ etapa</button>
+    <button class="btn peq perigo" data-act="delE" data-e="${i}">✕ etapa</button></div></details>`;
+  });
+  if(a.tipo!=='gps'&&a.tipo!=='contador'&&a.tipo!=='livre')h+=`<button class="btn" data-act="addE">＋ Adicionar etapa</button>`;
+  $('#edForm').innerHTML=h;
+}
+function onEd(ev){
+  const t=ev.target,k=t.dataset.k;
+  const v=t.type==='checkbox'?t.checked:t.type==='number'?parseFloat(t.value):t.value;
+  if(t.dataset.g)D.gps[t.dataset.g]=v;
+  else if(t.dataset.c)D.cont[t.dataset.c]=v;
+  else if(t.dataset.l)D.livre[t.dataset.l]=v;
+  else if(t.dataset.a)D[t.dataset.a]=v;
+  else if(t.dataset.f!==undefined)D.etapas[+t.dataset.e].fases[+t.dataset.f][k]=v;
+  else if(t.dataset.e!==undefined){
+    const e=D.etapas[+t.dataset.e];e[k]=v;
+    if(e.par&&(k==='reps'||k==='series'||k==='descSerie'))D.etapas.forEach((o,j)=>{
+      if(o!==e&&o.par===e.par){o[k]=v;const inp=document.querySelector('#edForm [data-e="'+j+'"][data-k="'+k+'"]:not([data-f])');if(inp)inp.value=val(v)}});
+  }
+}
+$('#edForm').addEventListener('input',onEd);
+$('#edForm').addEventListener('change',onEd);
+$('#edForm').addEventListener('toggle',ev=>{const d=ev.target;if(d.dataset&&d.dataset.ei!==undefined)D.etapas[+d.dataset.ei]._open=d.open},true);
+const mover=(arr,i,d)=>{const j=i+d;if(j<0||j>=arr.length)return;[arr[i],arr[j]]=[arr[j],arr[i]]};
+$('#edForm').addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-act]');if(!b)return;
+  const act=b.dataset.act,i=+b.dataset.e,j=+b.dataset.f;
+  const e=D.etapas[i];
+  if(act==='addE'){D.etapas.push(Object.assign(E('Etapa '+(D.etapas.length+1),[F('Ação',5,{voz:true,som:'bumbo'})],10,30),{_open:true}))}
+  else if(act==='delE'){if(D.etapas.length<2)return alert('A ação precisa ter ao menos uma etapa.');if(!confirm('Remover a etapa "'+e.nome+'"?'))return;D.etapas.splice(i,1)}
+  else if(act==='upE')mover(D.etapas,i,-1);
+  else if(act==='dnE')mover(D.etapas,i,1);
+  else if(act==='dupE'){const c=clone(e);c.id=uid();c.nome+=' (cópia)';c.fases.forEach(f=>f.id=uid());c._open=true;D.etapas.splice(i+1,0,c)}
+  else if(act==='addF'){e.fases.push(F('Nova fase',5,{voz:true}));e._open=true}
+  else if(act==='delF'){if(e.fases.length<2)return alert('A etapa precisa ter ao menos uma fase.');e.fases.splice(j,1)}
+  else if(act==='upF')mover(e.fases,j,-1);
+  else if(act==='dnF')mover(e.fases,j,1);
+  rEd();
+});
+$('#edVoltar').onclick=()=>{D=null;ir('tCat')};
+$('#edSalvar').onclick=()=>{
+  const a=D;
+  a.nome=(a.nome||'').trim();
+  if(!a.nome)return alert('Dê um nome à ação.');
+  a.preparo=num(a.preparo,0,0);a.rodadas=Math.round(num(a.rodadas,1,1));
+  for(const e of a.etapas){
+    e.nome=(e.nome||'').trim()||'Etapa';
+    e.reps=Math.round(num(e.reps,1,1));e.descanso=num(e.descanso,0,0);
+    e.series=Math.round(num(e.series,1,1));e.descSerie=num(e.descSerie,0,0);
+    e.par=(e.par||'').trim()||undefined;e.grupo=(e.grupo||'').trim()||undefined;e.carga=num(e.carga,0,0)||undefined;
+    for(const f of e.fases){f.nome=(f.nome||'').trim()||'Fase';f.seg=num(f.seg,0.5,5)}
+    delete e._open;
+  }
+  if(a.tipo==='contador'){const c=a.cont;c.unid=(c.unid||'').trim()||'repetição';c.valor=num(c.valor,0.01,1);c.metaMin=num(c.metaMin,1,20);c.metaQtd=num(c.metaQtd,1,100);c.aviso=num(c.aviso,0,0)}
+  if(a.tipo==='gps'){a.gps.metaMin=num(a.gps.metaMin,1,30);a.gps.metaKm=num(a.gps.metaKm,0.1,5);a.gps.avisoKm=num(a.gps.avisoKm,0.1,1);alvoNorm(a,a.gps)}
+  if(a.tipo==='livre'){a.livre.meta=Math.round(num(a.livre.meta,0,0));a.livre.aviso=Math.round(num(a.livre.aviso,0,0))}
+  if(a.tipo==='contador')a.cont.metaKcal=num(a.cont.metaKcal,0,0);
+  a.fcZona=Math.round(num(a.fcZona,0,0));
+  delete a._novo;igualaPares(a);
+  const i=ST.atividades.findIndex(x=>x.id===a.id);
+  if(i>=0)ST.atividades[i]=a;else ST.atividades.push(a);
+  save();D=null;ir('tCat');
+};
+
+/* ---------- Config ---------- */
+function vozes(){return ('speechSynthesis' in window)?speechSynthesis.getVoices().filter(v=>/^pt/i.test(v.lang)):[]}
+const GEN_M=['daniel','felipe','antonio','antônio','ricardo','donato','jorge','paulo','marcos','luiz','guilherme','lucas'];
+const GEN_F=['luciana','maria','francisca','thalita','vitoria','vitória','leticia','letícia','fernanda','camila','heloisa','helena','google português','google portuguese'];
+function genVoz(v){const n=(v.name||'').toLowerCase();if(GEN_M.some(x=>n.includes(x)))return 'm';if(GEN_F.some(x=>n.includes(x)))return 'f';return '?'}
+function vozesFiltradas(){const l=vozes(),g=C().genero;if(g==='todas')return l;const f=l.filter(v=>genVoz(v)===g);return f.length?f:l}
+function rVozes(){
+  const l=vozesFiltradas();
+  $('#cVozId').innerHTML='<option value="">Automática (conforme a preferência)</option>'+l.map(v=>{const g=genVoz(v);return `<option value="${esc(v.voiceURI)}"${v.voiceURI===C().vozId?' selected':''}>${esc(v.name)} (${esc(v.lang)})${g==='m'?' ♂':g==='f'?' ♀':''}</option>`}).join('');
+}
+if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=rVozes;
+function rConf(){
+  const c=C();
+  $('#cNome').value=c.nome;$('#cVoz').checked=c.voz;$('#cVib').checked=c.vibrar;$('#cAuto').checked=c.autoIniciar;$('#cEstilo').value=c.estilo;$('#cInc').checked=c.incentivo;$('#cGen').value=c.genero;
+  $('#cVel').value=c.vel;$('#cTom').value=c.tom;$('#cVolVoz').value=c.volVoz;$('#cVolSom').value=c.volSom;
+  $('#vVel').textContent=c.vel;$('#vTom').textContent=c.tom;
+  $('#cPeso').value=c.peso||'';$('#cFcMax').value=c.fcMax||'';fcStatus();
+  rVozes();offInfo();rFavConf();
+}
+[['cNome','nome','v'],['cVoz','voz','c'],['cVib','vibrar','c'],['cAuto','autoIniciar','c'],['cEstilo','estilo','v'],['cInc','incentivo','c'],['cGen','genero','v'],['cVel','vel','n'],['cTom','tom','n'],['cVolVoz','volVoz','n'],['cVolSom','volSom','n'],['cVozId','vozId','v'],['cPeso','peso','n'],['cFcMax','fcMax','n']].forEach(([id,k,t])=>{
+  $('#'+id).addEventListener('input',()=>{
+    const el=$('#'+id);C()[k]=t==='c'?el.checked:t==='n'?parseFloat(el.value):el.value;
+    if(k==='vel')$('#vVel').textContent=C().vel;if(k==='tom')$('#vTom').textContent=C().tom;if(k==='genero')rVozes();
+    save();
+  });
+});
+function rFavConf(){
+  const man=Array.isArray(C().favoritos),atual=favLista().map(a=>a.id);
+  $('#cFavInfo').textContent=man?'Modo manual: '+atual.length+' de 8 botões escolhidos por você. As mais usadas não entram mais sozinhas.':'Modo automático: as 8 ações mais usadas. Ao marcar ou desmarcar uma ação, você passa a escolher os botões (até 8).';
+  $('#cFavLista').innerHTML=ST.atividades.map(a=>`<label class="chk"><input type="checkbox" data-fav="${esc(a.id)}"${atual.includes(a.id)?' checked':''}> ${esc(a.icone||'⚡')} ${esc(a.nome)}</label>`).join('');
+}
+$('#cFavLista').addEventListener('change',ev=>{
+  const el=ev.target,id=el.dataset&&el.dataset.fav;if(!id)return;
+  let l=Array.isArray(C().favoritos)?C().favoritos.slice():favLista().map(a=>a.id);
+  if(el.checked){if(l.length>=8){el.checked=false;return alert('O máximo é 8 botões na tela inicial.')}if(!l.includes(id))l.push(id)}
+  else{if(l.length<=1){el.checked=true;return alert('Deixe ao menos 1 botão na tela inicial.')}l=l.filter(x=>x!==id)}
+  C().favoritos=l;save();rFavConf();
+});
+$('#cFavAuto').onclick=()=>{C().favoritos=null;save();rFavConf()};
+$('#tVoz').onclick=()=>{audio();const t=incOn()?frase('abre')+' '+frase('faltam5'):(C().nome?C().nome+', ':'')+'vamos treinar. Ação e disciplina!';if(incOn()&&ESTILOS[C().estilo].apito){apito(0.4);setTimeout(()=>falar(t,true),480)}else falar(t,true)};
+$('#tBum').onclick=()=>bumbo();
+$('#bExp').onclick=()=>{
+  const b=new Blob([JSON.stringify(ST,null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fenix-personal-backup.json';a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+};
+$('#bImp').onclick=()=>$('#fImp').click();
+$('#fImp').onchange=ev=>{
+  const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{const j=JSON.parse(r.result);
+    if(!j||!Array.isArray(j.atividades))throw 0;
+    if(!confirm('Substituir todas as ações atuais pelo backup?'))return;
+    ST=migrar(j);save();rConf();alert('Backup importado.');
+  }catch(e){alert('Arquivo inválido.')}};
+  r.readAsText(f);ev.target.value='';
+};
+$('#bRest').onclick=()=>{
+  const ids=ST.atividades.map(a=>a.id);let n=0;
+  seed().forEach(s=>{if(!ids.includes(s.id)){ST.atividades.push(s);n++}if(!ST.vistos.includes(s.id))ST.vistos.push(s.id)});
+  save();alert(n?n+' modelo(s) restaurado(s).':'Todos os modelos já estão no catálogo.');
+};
+
+/* ---------- Áudio e voz ---------- */
+let AC=null;
+function audio(){
+  if(!AC){const K=window.AudioContext||window.webkitAudioContext;if(K)AC=new K()}
+  if(AC&&AC.state==='suspended')AC.resume();
+  return AC;
+}
+function bumbo(){
+  const a=audio();if(!a)return;const t=a.currentTime;
+  const o=a.createOscillator(),g=a.createGain();
+  o.type='sine';o.frequency.setValueAtTime(170,t);o.frequency.exponentialRampToValueAtTime(42,t+0.13);
+  g.gain.setValueAtTime(Math.max(0.001,C().volSom),t);g.gain.exponentialRampToValueAtTime(0.001,t+0.38);
+  o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+0.42);
+}
+function bipe(f=880,d=0.13){
+  const a=audio();if(!a)return;const t=a.currentTime;
+  const o=a.createOscillator(),g=a.createGain();
+  o.type='sine';o.frequency.value=f;
+  g.gain.setValueAtTime(Math.max(0.001,C().volSom*0.5),t);g.gain.exponentialRampToValueAtTime(0.001,t+d);
+  o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+0.03);
+}
+/* Estilos do personal. {nome} é trocado pelo nome do praticante (ou removido, se vazio). */
+const ESTILOS={
+ neutro:{r:1,p:1},
+ sargento:{r:1,p:0.72,stacc:true,ex:true,apito:true,
+  abre:['{nome}! Atenção! Hoje não tem moleza!','Em posição, {nome}! Vamos trabalhar!','{nome}! Sem desculpas! Vamos!','Levanta essa cabeça, {nome}! Vai começar!'],
+  metade:['Metade! Mantém o ritmo! Não afrouxa!','Metade feita, {nome}! Agora é que começa!'],
+  faltam10:['Faltam dez! Aperta, {nome}! Não para!','Dez! Sem moleza! Firme!'],
+  faltam5:['Cinco! Dá tudo! Agora!','Só cinco, {nome}! Vai! Vai! Vai!'],
+  ultima:['Última! Com força! Vai!','A próxima é a última, {nome}! Não para agora!'],
+  desc:['Bom trabalho! Respira fundo! Prepara a próxima!','Boa, {nome}! Respira! Já já volta!'],
+  fim:['Missão cumprida, {nome}! Disciplina vence! Dispensado!','Treino concluído! É assim que se faz, {nome}! Dispensado!']},
+ amigo:{r:1,p:1.05,
+  abre:['Bora, {nome}! Vai ser um ótimo treino.','Oi, {nome}! Vamos nessa, estou com você.'],
+  metade:['Metade! Você está arrasando.','Chegamos na metade, {nome}. Segue firme!'],
+  faltam10:['Faltam dez! Você consegue.','Só mais dez, {nome}!'],
+  faltam5:['Quase lá! Faltam cinco.','Mais cinco, {nome}. Estou contigo!'],
+  ultima:['A próxima é a última! Vamos!','Última, {nome}! Capricha!'],
+  desc:['Muito bem, {nome}! Mandou bem.','Mandou muito bem! Respira e hidrata.'],
+  fim:['Parabéns, {nome}! Você foi muito bem.','Conseguimos! Orgulho de você, {nome}.']},
+ zen:{r:0.88,p:0.95,
+  abre:['{nome}, respire fundo. Vamos com calma e presença.','{nome}, solte os ombros. Um movimento de cada vez.'],
+  metade:['Metade do caminho. Mantenha a respiração.','Na metade, {nome}. Sem pressa, com atenção.'],
+  faltam10:['Faltam dez. Respire, e siga.','Dez restantes. Atenção ao movimento.'],
+  faltam5:['Cinco restantes. Respire com calma.','Mais cinco, {nome}. Com suavidade.'],
+  ultima:['A próxima é a última. Faça com presença.','Última. Inspire, e conclua.'],
+  desc:['Muito bem. Solte o corpo e respire.','Bem feito, {nome}. Deixe a respiração acalmar.'],
+  fim:['Concluído. Respire fundo e agradeça ao seu corpo, {nome}.','Terminamos, {nome}. Que sensação de calma.']}
+};
+const incOn=()=>!!(ESTILOS[C().estilo]&&C().estilo!=='neutro');
+const ULT={};
+function frase(tipo){
+  const est=ESTILOS[C().estilo];if(!est||!est[tipo])return '';
+  const l=est[tipo];let i=Math.floor(Math.random()*l.length);
+  if(l.length>1&&ULT[tipo]===i)i=(i+1)%l.length;ULT[tipo]=i;
+  const n=(C().nome||'').trim();
+  let t=l[i];
+  t=n?t.replace(/\{nome\}/g,n):t.replace(/\{nome\},\s*/g,'').replace(/,\s*\{nome\}/g,'').replace(/\{nome\}/g,'').replace(/^[\s!,.]+/,'');
+  return t.charAt(0).toUpperCase()+t.slice(1);
+}
+function apito(d){
+  d=d||0.4;
+  const a=audio();if(!a)return;const t=a.currentTime,v=Math.max(0.001,C().volSom*0.55);
+  const o=a.createOscillator(),g=a.createGain(),l=a.createOscillator(),lg=a.createGain();
+  o.type='sine';o.frequency.value=2700;
+  l.type='sine';l.frequency.value=38;lg.gain.value=260;l.connect(lg);lg.connect(o.frequency);
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+0.03);
+  g.gain.setValueAtTime(v,t+Math.max(0.04,d-0.08));g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+  o.connect(g);g.connect(a.destination);o.start(t);l.start(t);o.stop(t+d+0.02);l.stop(t+d+0.02);
+}
+/* Estilos com apito: toca o apito e só então fala (se a fase ainda for a mesma). */
+function aposApito(fn,dur){
+  const est=ESTILOS[C().estilo];
+  if(est&&est.apito&&C().estilo!=='neutro'){
+    apito(dur);const idx=R.i;
+    setTimeout(()=>{if(R.i===idx&&!R.fimTudo&&!R.pausado)fn()},(dur||0.4)*1000+60);
+  }else fn();
+}
+function falar(txt,forcar,fila){
+  if(!('speechSynthesis' in window)||(!C().voz&&!forcar))return;
+  try{
+    const est=ESTILOS[C().estilo]||ESTILOS.neutro;
+    let t=txt;
+    if(est.ex){t=t.replace(/\.(\s|$)/g,'!$1');if(!/[!?]\s*$/.test(t))t=t.replace(/\s+$/,'')+'!'}
+    const partes=est.stacc?(t.match(/[^!?]+[!?]*/g)||[t]).map(x=>x.trim()).filter(x=>x.length>1):[t];
+    if(!fila)speechSynthesis.cancel();
+    const v=vozes().find(x=>x.voiceURI===C().vozId)||(C().genero!=='todas'?vozesFiltradas()[0]:null);
+    partes.forEach(p=>{
+      const u=new SpeechSynthesisUtterance(p);
+      u.lang='pt-BR';if(v)u.voice=v;
+      u.rate=Math.min(2,Math.max(0.5,C().vel*est.r));u.pitch=Math.min(2,Math.max(0.1,C().tom*est.p));u.volume=C().volVoz;
+      speechSynthesis.speak(u);
+    });
+  }catch(e){}
+}
+function sinal(som){
+  if(som==='bumbo')bumbo();else if(som==='bipe')bipe(880,0.16);else if(som==='tic')bipe(1200,0.05);
+  if(som!=='nenhum'&&C().vibrar&&navigator.vibrate)navigator.vibrate(40);
+}
+
+/* ---------- Motor de execução ---------- */
+function montar(a){
+  const S=[];
+  if(a.preparo>0)S.push({t:'preparo',dur:a.preparo,ek:-1,rod:0,et:0,rep:0});
+  for(let r=0;r<a.rodadas;r++){
+    a.etapas.forEach((e,ei)=>{
+      const fs=e.fases.filter(f=>f.seg>0);
+      if(!fs.length||!(e.reps>0))return;
+      const ek=r*1000+ei;
+      let mi=0;fs.forEach((f,fi)=>{if(f.seg>=fs[mi].seg)mi=fi});
+      const SN=serN(e);
+      for(let sr=0;sr<SN;sr++){
+        for(let k=0;k<e.reps;k++){const mk=marco(e.reps,k);fs.forEach((f,fi)=>S.push({t:'fase',dur:f.seg,f,ek,rod:r,et:ei,rep:k,ser:sr,fi,mk:fi===mi?mk:null}))}
+        if(sr<SN-1&&e.descSerie>0)S.push({t:'descanso',inner:true,dur:e.descSerie,ek,rod:r,et:ei,rep:0,ser:sr,nxt:'série '+(sr+2)+' de '+SN});
+      }
+      const ultima=(r===a.rodadas-1&&ei===a.etapas.length-1);
+      if(!ultima&&e.descanso>0){
+        const nxt=ei<a.etapas.length-1?a.etapas[ei+1].nome:a.etapas[0].nome+' (rodada '+(r+2)+')';
+        S.push({t:'descanso',dur:e.descanso,ek,rod:r,et:ei,rep:0,nxt});
+      }
+    });
+  }
+  return S;
+}
+/* Marcos de incentivo: dito na fase mais longa da repetição (tem mais tempo para falar). */
+function marco(n,k){
+  const feitas=k+1,resta=n-k-1;
+  if(n>=6&&feitas===Math.floor(n/2))return 'metade';
+  if(n>=25&&resta===10)return 'faltam10';
+  if(n>=12&&resta===5)return 'faltam5';
+  if(n>=3&&resta===1)return 'ultima';
+  return null;
+}
+const R={a:null,S:[],cum:[],i:0,ini:0,fim:0,pausado:false,pEm:0,timer:null,ultSeg:-1,wl:null,total:0,fimTudo:false};
+
+async function wlOn(){try{if('wakeLock' in navigator)R.wl=await navigator.wakeLock.request('screen')}catch(e){}}
+function wlOff(){try{if(R.wl){R.wl.release();R.wl=null}}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&R.timer)wlOn()});
+
+function iniciar(id,custom){
+  const a0=custom||ST.atividades.find(x=>x.id===id);if(!a0)return;
+  if(a0.tipo==='livre')return livreIniciar(a0,custom&&custom.livre||a0.livre);
+  if(a0.tipo==='contador')return contIniciar(a0,custom&&custom.cont||a0.cont);
+  if(a0.tipo==='gps')return gpsIniciar(a0,custom&&custom.gps||a0.gps);
+  const a=clone(a0);a.etapas=a.etapas.filter(e=>e.on!==false);
+  if(!a.etapas.length)return alert('Marque ao menos uma etapa ou exercício.');
+  const S=montar(a);
+  if(!S.length)return alert('Esta ação não tem fases com tempo. Edite-a antes de executar.');
+  audio();
+  if('speechSynthesis' in window){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
+  R.a=a;R.S=S;R.cum=[];let c=0;S.forEach(s=>{R.cum.push(c);c+=s.dur});R.total=c;
+  R.pausado=false;R.fimTudo=false;R.ultSeg=-1;R.vol=0;fcIni();$('#exFc').textContent='';
+  ST.uso[a.id]=(ST.uso[a.id]||0)+1;save();
+  $('#exBt').style.display='grid';$('#xVoltar').style.display='none';
+  $('#exAtiv').textContent=a.nome;
+  ir('tExec');
+  wlOn();
+  entrar(0,performance.now());
+  clearInterval(R.timer);R.timer=setInterval(tick,100);
+}
+function entrar(i,base){
+  R.i=i;const s=R.S[i];
+  R.ini=base;R.fim=base+s.dur*1000;R.ultSeg=-1;
+  anunciar(s);render(s);
+}
+function anunciar(s){
+  const n=C().nome;
+  if(s.t==='preparo'){
+    const ab=incOn()?frase('abre'):'';
+    if(ab)aposApito(()=>falar(ab+(s.dur>=8?' Prepare-se. '+R.a.nome+'.':'')),0.45);
+    else falar((n?n+', ':'')+'prepare-se. '+R.a.nome+'.');
+    return;
+  }
+  if(s.t==='descanso'){
+    const d=incOn()&&s.dur>=8?frase('desc')+' ':'';
+    falar(d+'Descanse. '+(s.inner?'Próxima: ':'Próximo: ')+s.nxt+'.');return;
+  }
+  const f=s.f;
+  sinal(f.som);
+  const et=R.a.etapas[s.et];
+  if(et&&s.fi===0&&et.carga>0)R.vol+=et.carga;
+  if(et&&et.contar&&s.fi===0)falar(String(s.rep+1));
+  else if(f.voz)falar(f.fala||f.nome);
+  if(s.mk&&C().incentivo&&incOn()){
+    const fr=frase(s.mk);
+    if(fr){if(!f.voz){if(s.mk==='ultima')aposApito(()=>falar(fr),0.3);else falar(fr)}else if(s.dur>=3)falar(fr,false,true)}
+  }
+}
+function anim(el,nome,dur){el.style.animation='none';void el.offsetWidth;el.style.animation=nome+' '+dur+'s linear 1 forwards'}
+function desenho(g,dur){
+  const el=$('#guia');el.dataset.v='';el.dataset.p='';
+  if(POS.includes(g)){el.dataset.m='alvo';el.dataset.pos=g}
+  else if(g==='orbita-h'||g==='orbita-a'){el.dataset.m='orb';anim($('#braco'),g==='orbita-h'?'giraH':'giraA',dur)}
+  else if(g==='veda-dir'||g==='veda-esq'){el.dataset.m='olhos';el.dataset.v=g==='veda-dir'?'dir':'esq'}
+  else if(g==='pisca'){el.dataset.m='olhos';el.style.setProperty('--bd',(dur/5)+'s');void el.offsetWidth;el.dataset.p='sim'}
+  else if(g==='aproxima'||g==='afasta'||g==='segura'){el.dataset.m='lapis';anim($('#lap'),g==='afasta'?'lapOut':'lapIn',g==='segura'?0.01:dur)}
+  else el.dataset.m='nenhum';
+}
+function render(s){
+  const a=R.a,t=$('#tExec');
+  t.className='tela on '+(s.t==='fase'?'fase':s.t);
+  void t.offsetWidth;t.classList.add('pulso');
+  $('#exRod').textContent=a.rodadas>1&&s.t!=='preparo'?'Rodada '+(s.rod+1)+'/'+a.rodadas:'';
+  if(s.t==='preparo'){
+    $('#exEtapa').textContent='';$('#exFase').textContent='Prepare-se';$('#exDica').textContent='Posicione-se. Começamos já.';
+    $('#exRep').textContent='';desenho('nenhum',1);
+  }else if(s.t==='descanso'&&s.inner){
+    $('#exEtapa').textContent='Etapa '+(s.et+1)+'/'+a.etapas.length+' · '+a.etapas[s.et].nome;
+    $('#exFase').textContent='Descanse';$('#exDica').textContent='Próxima: '+s.nxt;$('#exRep').textContent='Série '+(s.ser+1)+' concluída';desenho('nenhum',1);
+  }else if(s.t==='descanso'){
+    $('#exEtapa').textContent='Etapa '+(s.et+1)+'/'+a.etapas.length+' concluída';
+    $('#exFase').textContent='Descanse';$('#exDica').textContent='Próximo: '+s.nxt;$('#exRep').textContent='';desenho('nenhum',1);
+  }else{
+    const e=a.etapas[s.et],f=s.f;
+    $('#exEtapa').textContent='Etapa '+(s.et+1)+'/'+a.etapas.length+' · '+e.nome+(e.carga>0?' · '+e.carga+' kg':'');
+    $('#exFase').textContent=f.nome;$('#exDica').textContent=f.dica||'';
+    const SN=serN(e);
+    $('#exRep').textContent=SN>1?'Série '+(s.ser+1)+' de '+SN+(e.reps>1?' · Repetição '+(s.rep+1)+' de '+e.reps:''):'Repetição '+(s.rep+1)+' de '+e.reps;
+    desenho(f.guia,s.dur);
+  }
+}
+function tick(){
+  if(R.pausado||R.fimTudo)return;
+  const now=performance.now();
+  if(now>=R.fim){
+    if(R.i+1>=R.S.length)return concluir();
+    entrar(R.i+1,now-R.fim>1500?now:R.fim);
+    return;
+  }
+  const s=R.S[R.i],rest=(R.fim-now)/1000,seg=Math.ceil(rest);
+  $('#exCont').textContent=seg>=3600?mmss(seg):(seg>=100?mmss(seg):seg);
+  $('#exBar').style.width=Math.min(100,(R.total?((R.cum[R.i]+(now-R.ini)/1000)/R.total)*100:0))+'%';
+  $('#exTotal').textContent='Restante total: '+mmss(R.total-R.cum[R.i]-(now-R.ini)/1000);
+  if(seg!==R.ultSeg){R.ultSeg=seg;$('#exFc').textContent=fcTxt();fcZonaCheck(R.a);if((s.t==='preparo'||s.t==='descanso')&&seg>=1&&seg<=3)bipe(seg===1?1100:800,0.1)}
+}
+function concluir(){
+  R.fimTudo=true;clearInterval(R.timer);R.timer=null;wlOff();
+  const kc=kcalDe(R.a,R.total),fr=fcRes();
+  ST.hist=(ST.hist||[]).concat([Object.assign({id:R.a.id,nome:R.a.nome,ts:Date.now(),seg:Math.round(R.total),kcal:Math.round(kc)},R.vol>0?{kg:Math.round(R.vol)}:{},fr)]).slice(-300);
+  ST.ult[R.a.id]=Date.now();save();
+  const t=$('#tExec');t.className='tela on fim';
+  $('#exEtapa').textContent=R.a.nome;$('#exFase').textContent='Concluído!';
+  const fim=incOn()?frase('fim'):'';
+  $('#exDica').textContent=fim||('Parabéns'+(C().nome?', '+C().nome:'')+'! Ação e disciplina.');
+  $('#exCont').textContent='✔';$('#exRep').textContent='Tempo total: '+fmt(R.total)+(R.vol>0?' · Volume: '+Math.round(R.vol).toLocaleString('pt-BR')+' kg':'');$('#exRod').textContent='';
+  $('#exBar').style.width='100%';$('#exTotal').textContent='Gasto estimado: ~'+Math.round(kc)+' kcal';$('#exFc').textContent=fr.fcm?'❤ média '+fr.fcm+' · máx '+fr.fcx:'';desenho('nenhum',1);
+  $('#exBt').style.display='none';$('#xVoltar').style.display='block';
+  const fimTxt=fim||('Concluído. Parabéns'+(C().nome?', '+C().nome:'')+'!');
+  if(incOn()&&ESTILOS[C().estilo].apito){apito(0.35);setTimeout(()=>apito(0.35),450);setTimeout(()=>falar(fimTxt),1000)}
+  else{bumbo();setTimeout(bumbo,350);setTimeout(bumbo,700);falar(fimTxt)}
+}
+function parar(){
+  clearInterval(R.timer);R.timer=null;R.fimTudo=true;wlOff();
+  try{speechSynthesis.cancel()}catch(e){}
+  ir('tHome');
+}
+$('#xParar').onclick=()=>{if(confirm('Encerrar a ação agora?'))parar()};
+$('#xVoltar').onclick=parar;
+$('#xPausa').onclick=()=>{
+  if(R.fimTudo)return;
+  if(!R.pausado){R.pausado=true;R.pEm=performance.now();$('#xPausa').textContent='▶ Retomar';$('#guia').classList.add('pausa');try{speechSynthesis.cancel()}catch(e){}}
+  else{const d=performance.now()-R.pEm;R.ini+=d;R.fim+=d;R.pausado=false;$('#xPausa').textContent='⏸ Pausar';$('#guia').classList.remove('pausa')}
+};
+function pular(j){
+  if(j<0||R.fimTudo)return;
+  if(j>=R.S.length)return concluir();
+  if(R.pausado){R.pausado=false;$('#xPausa').textContent='⏸ Pausar';$('#guia').classList.remove('pausa')}
+  entrar(j,performance.now());
+}
+$('#xPular').onclick=()=>pular(R.i+1);
+$('#xEtapa').onclick=()=>{
+  const cur=R.S[R.i];let j=R.i+1;
+  const curD=cur.t==='descanso'&&!cur.inner;
+  while(j<R.S.length&&!(R.S[j].ek!==cur.ek||(R.S[j].t==='descanso'&&!R.S[j].inner&&!curD)))j++;
+  pular(j);
+};
+$('#xReiniciar').onclick=()=>{
+  const cur=R.S[R.i];if(cur.t==='preparo')return pular(0);
+  let j=R.i;while(j>0&&R.S[j-1].ek===cur.ek&&R.S[j-1].t==='fase')j--;
+  pular(j);
+};
+
+/* ---------- Calorias, ritmo-alvo, frequência cardíaca e passos ---------- */
+const MET_ID={ocular:1.2,academia:5,coluna:2.5,pomodoro:1.3,calistenia:8};
+function metDe(a,v){
+  if(a.tipo==='gps'){const e=a.esporte;
+    if(e==='caminhada')return Math.max(2.5,1.5+0.45*v);if(e==='trilha')return Math.max(5,2+0.55*v);
+    if(e==='corrida')return Math.max(6,v);if(e==='ciclismo')return Math.max(4,0.4*v);
+    if(e==='canoagem')return 5;if(e==='remo')return 7;if(e==='patins')return Math.max(5,0.5*v);return 6}
+  if(a.tipo==='contador'){const u=a.cont.unid||'';return /salto/.test(u)?11:/passo/.test(u)?3.5:(/volta/.test(u)&&a.cont.valor<100)?6:8}
+  if(a.tipo==='livre')return 3.8;
+  return a.met||MET_ID[a.id]||5;
+}
+const kcalDe=(a,seg,v)=>metDe(a,v||0)*(C().peso||70)*seg/3600;
+function fPace(sec){sec=Math.round(sec);return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0')}
+function pPace(t){t=String(t).trim().replace(',','.');if(/^\d+:\d{1,2}$/.test(t)){const x=t.split(':');return +x[0]*60+ +x[1]}const v=parseFloat(t);return Number.isFinite(v)?v*60:NaN}
+const ehPace=a=>espo(a).ritmo==='pace';
+const alvoFmt=(a,v)=>typeof v==='string'?v:v==null?'':ehPace(a)?fPace(v):String(v);
+const alvoParse=(a,t)=>ehPace(a)?pPace(t):parseFloat(String(t).replace(',','.'));
+function alvoNorm(a,g){
+  const def=ehPace(a)?[300,330]:[18,22];
+  let A=typeof g.alvoA==='string'?alvoParse(a,g.alvoA):g.alvoA,B=typeof g.alvoB==='string'?alvoParse(a,g.alvoB):g.alvoB;
+  if(!Number.isFinite(A))A=def[0];if(!Number.isFinite(B))B=def[1];
+  if(A>B){const x=A;A=B;B=x}
+  g.alvoA=A;g.alvoB=B;g.alvoOn=!!g.alvoOn;g.metaDesn=Math.max(0,parseFloat(g.metaDesn)||0);g.metaKcal=Math.max(0,parseFloat(g.metaKcal)||0);
+}
+/* Frequência cardíaca por cinta Bluetooth (Chrome no Android). */
+const FCM={bpm:null,dev:null,ult:0,sess:null,est:'',desde:0,ultAv:-1e9};
+function fcParse(v){return (v.getUint8(0)&1)?v.getUint16(1,true):v.getUint8(1)}
+function fcAmostra(){const b=FCM.bpm;if(FCM.sess&&b>0){FCM.sess.sum+=b;FCM.sess.n++;if(b>FCM.sess.max)FCM.sess.max=b}}
+function fcIni(){FCM.sess={sum:0,n:0,max:0}}
+function fcRes(){const x=FCM.sess;return x&&x.n?{fcm:Math.round(x.sum/x.n),fcx:x.max}:{}}
+function fcStatus(){
+  const t=!navigator.bluetooth?'Bluetooth indisponível neste navegador (use o Chrome no Android).':FCM.dev?'Conectada: '+(FCM.dev.name||'cinta')+(FCM.bpm?' · '+FCM.bpm+' bpm':''):'Nenhuma cinta conectada.';
+  const e1=$('#cFcSt'),e2=$('#fcFcT');if(e1)e1.textContent=t;if(e2)e2.textContent=FCM.dev?'conectada':'conectar';
+}
+async function fcConectar(){
+  if(!navigator.bluetooth)return alert('Este navegador não oferece Bluetooth. Use o Chrome no Android; o iPhone não permite.');
+  try{
+    const d=await navigator.bluetooth.requestDevice({filters:[{services:['heart_rate']}]});
+    const sv=await (await d.gatt.connect()).getPrimaryService('heart_rate');
+    const ch=await sv.getCharacteristic('heart_rate_measurement');
+    ch.addEventListener('characteristicvaluechanged',ev=>{FCM.bpm=fcParse(ev.target.value);FCM.ult=Date.now();fcAmostra()});
+    await ch.startNotifications();
+    d.addEventListener('gattserverdisconnected',()=>{FCM.bpm=null;FCM.dev=null;fcStatus()});
+    FCM.dev=d;fcStatus();
+  }catch(e){if(!e||e.name!=='NotFoundError')alert('Não foi possível conectar à cinta: '+((e&&e.message)||e))}
+}
+function zonaDe(b){const p=b/(C().fcMax||190);return p<.5?0:p<.6?1:p<.7?2:p<.8?3:p<.9?4:5}
+function fcTxt(){
+  if(!FCM.dev)return '';
+  if(FCM.bpm==null||Date.now()-FCM.ult>10000)return '❤ --';
+  return '❤ '+FCM.bpm+' bpm · Z'+Math.max(1,zonaDe(FCM.bpm));
+}
+function fcZonaCheck(a){
+  const z=Math.round(+a.fcZona||0);
+  if(!z||FCM.bpm==null||Date.now()-FCM.ult>10000){FCM.desde=0;return}
+  const m=C().fcMax||190,lo=m*[.5,.6,.7,.8,.9][z-1],hi=m*[.6,.7,.8,.9,1][z-1],t=performance.now();
+  const st=FCM.bpm>hi?'alta':FCM.bpm<lo?'baixa':'ok';
+  if(st==='ok'){FCM.desde=0;return}
+  if(FCM.est!==st||!FCM.desde){FCM.est=st;FCM.desde=t}
+  if(t-FCM.desde>=15000&&t-FCM.ultAv>=40000){FCM.ultAv=t;falar(st==='alta'?'Frequência cardíaca alta. Reduza o ritmo.':'Frequência cardíaca baixa. Aumente um pouco o ritmo.')}
+}
+const fcEx=()=>{const f=fcTxt();return f};
+/* Passos pelo sensor de movimento: estimativa por picos de aceleração. */
+const PS={fn:null,base:9.8,last:0,thr:1.2};
+function passoAmostra(m,t){
+  PS.base=PS.base*0.9+m*0.1;
+  if(m-PS.base>PS.thr&&t-PS.last>300){PS.last=t;return true}
+  return false;
+}
+async function passosOn(cb){
+  try{
+    if(typeof DeviceMotionEvent!=='undefined'&&typeof DeviceMotionEvent.requestPermission==='function'){
+      if(await DeviceMotionEvent.requestPermission()!=='granted')return false}
+    if(typeof DeviceMotionEvent==='undefined')return false;
+  }catch(e){return false}
+  PS.base=9.8;PS.last=0;
+  PS.fn=ev=>{const a=ev.accelerationIncludingGravity;if(!a)return;if(passoAmostra(Math.hypot(a.x||0,a.y||0,a.z||0),performance.now()))cb()};
+  window.addEventListener('devicemotion',PS.fn);return true;
+}
+function passosOff(){if(PS.fn)window.removeEventListener('devicemotion',PS.fn);PS.fn=null}
+$('#cFcCon').onclick=fcConectar;$('#fcFc').onclick=fcConectar;
+
+/* ---------- GPS ---------- */
+function haversine(la1,lo1,la2,lo2){
+  const R=6371000,t=x=>x*Math.PI/180,a=Math.sin(t(la2-la1)/2)**2+Math.cos(t(la1))*Math.cos(t(la2))*Math.sin(t(lo2-lo1)/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
+}
+const G={a:null,g:null,wid:null,timer:null,dist:0,t0:0,pausaTot:0,pEm:0,pausado:false,ult:null,acc:null,nAv:0,metade:false,fim:false,tem:false,orig:null,pos:null};
+const gpsSeg=()=>((G.pausado?G.pEm:performance.now())-G.t0-G.pausaTot)/1000;
+const fTempoVoz=s=>{s=Math.round(s);const m=Math.floor(s/60),x=s%60;return (m?m+(m===1?' minuto':' minutos'):'')+(m&&x?' e ':'')+(x||!m?x+(x===1?' segundo':' segundos'):'')};
+function gpsRitmo(m,s){
+  if(m<20||s<=0)return null;
+  if(espo(G.a).ritmo==='kmh'){const v=m/s*3.6;return {txt:v.toFixed(1).replace('.',',')+' km/h',voz:'Velocidade média '+Math.round(v)+' quilômetros por hora.'}}
+  const sp=s/(m/1000),mm=Math.floor(sp/60),ss=Math.round(sp%60);
+  return {txt:mm+':'+String(ss).padStart(2,'0')+' min/km',voz:'Ritmo médio '+mm+' minutos e '+ss+' segundos por quilômetro.'};
+}
+function gpsIniciar(a,g){
+  if(!('geolocation' in navigator))return alert('Este aparelho ou navegador não oferece GPS.');
+  audio();
+  if('speechSynthesis' in window){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
+  fcIni();Object.assign(G,{a,g:clone(g),dist:0,t0:performance.now(),pausaTot:0,pEm:0,pausado:false,ult:null,acc:null,nAv:0,metade:false,fim:false,tem:false,orig:null,pos:null});
+  ST.uso[a.id]=(ST.uso[a.id]||0)+1;save();
+  alvoNorm(a,G.g);Object.assign(G,{alt:null,altRef:null,gain:0,loss:0,janela:[],fora:0,ultRit:-99});$('#gAlvo').textContent='';$('#gExtra').textContent='';
+  $('#gAtiv').textContent=a.icone+' '+a.nome;$('#gTit').textContent='Meta: '+metaTxt(G.g)+(G.g.volta!==false?' · ida e volta':'');
+  $('#gMsg').textContent='';$('#gBt').style.display='grid';$('#gVoltar').style.display='none';$('#gPausa').textContent='⏸ Pausar';
+  $('#tGps').className='tela on';
+  ir('tGps');wlOn();
+  try{G.wid=navigator.geolocation.watchPosition(gpsPos,gpsErr,{enableHighAccuracy:true,maximumAge:0,timeout:30000})}catch(e){gpsErr({code:2})}
+  clearInterval(G.timer);G.timer=setInterval(gpsTick,500);
+  const ab=incOn()?frase('abre'):((C().nome?C().nome+', ':'')+'vamos começar.');
+  falar(ab+' Meta: '+(G.g.modo==='tempo'?G.g.metaMin+' minutos':G.g.modo==='distancia'?G.g.metaKm+' quilômetros':G.g.metaMin+' minutos ou '+G.g.metaKm+' quilômetros, o que vier primeiro')+'.'+(G.g.volta!==false?' Percurso de ida e volta: aviso na metade para retornar.':''));
+  gpsTick();
+}
+function gpsErr(e){
+  $('#gMsg').textContent=e&&e.code===1?'Permissão de localização negada. Libere o acesso à localização para este app nas configurações do navegador e tente de novo. (O GPS exige endereço https.)':'Sem sinal de GPS no momento. Vá para um local aberto; a medição continua quando o sinal voltar.';
+}
+function gpsPos(p){
+  const c=p.coords;G.acc=c.accuracy;G.tem=true;
+  if(G.pausado||G.fim)return;
+  $('#gMsg').textContent='';
+  if(c.accuracy>35)return;
+  const pt={la:c.latitude,lo:c.longitude,t:p.timestamp};
+  G.pos=pt;if(!G.orig)G.orig=pt;
+  if(c.altitude!=null&&(c.altitudeAccuracy==null||c.altitudeAccuracy<=20)){
+    G.alt=G.alt==null?c.altitude:G.alt*0.7+c.altitude*0.3;
+    if(G.altRef==null)G.altRef=G.alt;
+    const dz=G.alt-G.altRef;
+    if(dz>=3){G.gain+=dz;G.altRef=G.alt}else if(dz<=-3){G.loss-=dz;G.altRef=G.alt}
+  }
+  if(!G.ult){G.ult=pt;return}
+  const d=haversine(G.ult.la,G.ult.lo,pt.la,pt.lo),dt=(pt.t-G.ult.t)/1000;
+  if(dt<=0)return;
+  if(d<Math.max(3,c.accuracy/2))return;
+  if(d/dt>espo(G.a).vmax)return;
+  G.dist+=d;G.ult=pt;
+}
+function gpsTick(){
+  if(G.fim||G.pausado)return;
+  const s=gpsSeg(),m=G.dist,g=G.g;
+  const mT=g.modo!=='distancia'?g.metaMin*60:0,mD=g.modo!=='tempo'?g.metaKm*1000:0;
+  const kc=kcalDe(G.a,s,s>0?m/s*3.6:0);
+  const pT=mT?s/mT:0,pD=mD?m/mD:0,pDe=g.metaDesn>0?G.gain/g.metaDesn:0,pK=g.metaKcal>0?kc/g.metaKcal:0,prog=Math.max(pT,pD,pDe,pK);
+  $('#gTempo').textContent=mmss(s);$('#gDist').textContent=(m/1000).toFixed(2).replace('.',',')+' km';
+  const r=gpsRitmo(m,s);$('#gRitmo').textContent=r?'Média: '+r.txt:'';
+  $('#gMetaT').textContent=mT?'Tempo: '+mmss(s)+' / '+mmss(mT):'';$('#gBarT').style.width=Math.min(100,pT*100)+'%';$('#gBarT').parentNode.style.display=mT?'block':'none';
+  $('#gMetaD').textContent=mD?'Distância: '+(m/1000).toFixed(2).replace('.',',')+' / '+kmTxt(g.metaKm):'';$('#gBarD').style.width=Math.min(100,pD*100)+'%';$('#gBarD').parentNode.style.display=mD?'block':'none';
+  $('#gSinal').textContent=!G.tem?'Buscando GPS…':G.acc>35?'Sinal fraco (±'+Math.round(G.acc)+' m)':'GPS ±'+Math.round(G.acc)+' m';
+  $('#gExtra').textContent=[G.alt!=null?'↑ '+Math.round(G.gain)+' m  ↓ '+Math.round(G.loss)+' m':'','~'+Math.round(kc)+' kcal',fcTxt()].filter(Boolean).join(' · ');
+  fcZonaCheck(G.a);
+  if(g.alvoOn){
+    const pace=ehPace(G.a),rot=alvoFmt(G.a,g.alvoA)+'–'+alvoFmt(G.a,g.alvoB)+(pace?' /km':' km/h');
+    G.janela.push({t:s,d:m});while(G.janela.length>2&&s-G.janela[0].t>30)G.janela.shift();
+    const j0=G.janela[0];
+    if(s>=30&&s-j0.t>=15){
+      const v=(m-j0.d)/(s-j0.t),val=v>0.3?(pace?1000/v:v*3.6):null;
+      let est='ok';
+      if(val!=null){if(pace){if(val<g.alvoA)est='rapido';else if(val>g.alvoB)est='lento'}else{if(val<g.alvoA)est='lento';else if(val>g.alvoB)est='rapido'}}
+      $('#gAlvo').textContent=(val==null?'Parado':'Agora '+(pace?fPace(val)+' /km':val.toFixed(1).replace('.',',')+' km/h'))+' · alvo '+rot+(est==='ok'?' ✔':est==='lento'?' ▼ lento':' ▲ rápido');
+      $('#gAlvo').style.color=est==='ok'?'#7dffb2':'#ffd37a';
+      if(est==='ok')G.fora=0;else G.fora+=0.5;
+      if(est!=='ok'&&G.fora>=10&&s-G.ultRit>=30){G.ultRit=s;G.fora=0;falar(est==='lento'?'Ritmo lento. Acelere!':'Ritmo rápido demais. Segure um pouco!')}
+    }else $('#gAlvo').textContent='Medindo o ritmo… alvo '+rot;
+  }
+  while(g.avisoKm>0&&m>=(G.nAv+1)*g.avisoKm*1000){
+    G.nAv++;const km=G.nAv*g.avisoKm,rr=gpsRitmo(m,s);
+    falar(kmTxt(km).replace(' km',km===1?' quilômetro. ':' quilômetros. ')+'Tempo '+fTempoVoz(s)+'. '+(rr?rr.voz:''));
+    if(C().vibrar&&navigator.vibrate)navigator.vibrate(80);
+  }
+  const ds=G.orig&&G.pos?haversine(G.orig.la,G.orig.lo,G.pos.la,G.pos.lo):null;
+  const fDist=d=>d<1000?(Math.round(d/10)*10)+' metros':(d/1000).toFixed(1).replace('.',',')+' quilômetros';
+  if(!G.metade&&prog>=0.5&&prog<1){
+    G.metade=true;
+    if(g.volta!==false){
+      let t='Metade do percurso! Hora de fazer o retorno'+(ds!=null?'. Você está a '+fDist(ds)+' do ponto de partida':'')+'.';
+      if(mD&&ds!=null&&ds>(mD-m)*1.15)t+=' Atenção: a largada está mais longe do que falta para a meta.';
+      if(incOn()&&ESTILOS[C().estilo].apito)apito(0.4);
+      falar(t);if(C().vibrar&&navigator.vibrate)navigator.vibrate([200,100,200]);
+    }else falar(incOn()?frase('metade'):'Metade da meta.');
+  }
+  if(G.metade&&g.volta!==false)$('#gTit').textContent='↩ Retorno'+(ds!=null?' · largada a '+fDist(ds):'');
+  else if(g.volta!==false&&ds!=null)$('#gTit').textContent='➡ Ida · largada a '+fDist(ds);
+  if(prog>=1)gpsFim(prog===pT?'tempo':prog===pD?'distancia':prog===pDe?'desnivel':'calorias');
+}
+function gpsFim(motivo){
+  if(G.fim)return;
+  const s=gpsSeg(),m=G.dist,kc=kcalDe(G.a,s,s>0?m/s*3.6:0),fr=fcRes();
+  G.fim=true;clearInterval(G.timer);G.timer=null;try{navigator.geolocation.clearWatch(G.wid)}catch(e){}wlOff();
+  ST.hist=(ST.hist||[]).concat([Object.assign({id:G.a.id,nome:G.a.nome,ts:Date.now(),seg:Math.round(s),m:Math.round(m),kcal:Math.round(kc),subida:Math.round(G.gain)},fr)]).slice(-300);
+  ST.ult[G.a.id]=Date.now();save();
+  $('#tGps').className='tela on fim';
+  const r=gpsRitmo(m,s);
+  $('#gTit').textContent=motivo==='manual'?'Ação encerrada':'Meta atingida!';
+  $('#gTempo').textContent=mmss(s);$('#gDist').textContent=(m/1000).toFixed(2).replace('.',',')+' km';
+  $('#gRitmo').textContent=r?'Média: '+r.txt:'';$('#gMetaT').textContent='';$('#gMetaD').textContent='';$('#gMsg').textContent='';$('#gAlvo').textContent='';
+  $('#gExtra').textContent=[G.alt!=null?'↑ '+Math.round(G.gain)+' m  ↓ '+Math.round(G.loss)+' m':'','~'+Math.round(kc)+' kcal',fr.fcm?'❤ média '+fr.fcm+' · máx '+fr.fcx:''].filter(Boolean).join(' · ');
+  $('#gBarT').parentNode.style.display='none';$('#gBarD').parentNode.style.display='none';
+  $('#gBt').style.display='none';$('#gVoltar').style.display='block';
+  const fim=incOn()?frase('fim'):('Parabéns'+(C().nome?', '+C().nome:'')+'!');
+  const msg=({manual:'Encerrado. ',tempo:'Tempo cumprido. ',distancia:'Distância cumprida. ',desnivel:'Meta de subida cumprida. ',calorias:'Meta de gasto cumprida. '}[motivo])+fim+' Total: '+(m/1000).toFixed(2).replace('.',',')+' quilômetros em '+fTempoVoz(s)+'. Gasto estimado: '+Math.round(kc)+' calorias.';
+  if(incOn()&&ESTILOS[C().estilo].apito){apito(0.35);setTimeout(()=>falar(msg),600)}else{bumbo();setTimeout(bumbo,350);falar(msg)}
+}
+$('#gPausa').onclick=()=>{
+  if(G.fim)return;
+  if(!G.pausado){G.pausado=true;G.pEm=performance.now();$('#gPausa').textContent='▶ Retomar';$('#gMsg').textContent='Pausado: a distância não está sendo contada.'}
+  else{G.pausaTot+=performance.now()-G.pEm;G.pausado=false;G.ult=null;$('#gPausa').textContent='⏸ Pausar';$('#gMsg').textContent=''}
+};
+$('#gParar').onclick=()=>{if(confirm('Encerrar a ação agora?'))gpsFim('manual')};
+$('#gVoltar').onclick=()=>{try{speechSynthesis.cancel()}catch(e){}ir('tHome')};
+
+/* ---------- Contagem (voltas, saltos, repetições livres) ---------- */
+const CT={a:null,c:null,n:0,t0:0,pausaTot:0,pEm:0,pausado:false,timer:null,nAv:0,metade:false,fim:false};
+const ctSeg=()=>((CT.pausado?CT.pEm:performance.now())-CT.t0-CT.pausaTot)/1000;
+const ctTot=()=>CT.n*CT.c.valor;
+function ctVoz(){const c=CT.c,t=ctTot();return c.un==='m'?Math.round(t)+' metros':c.un==='km'?String(t).replace('.',',')+' quilômetros':CT.n+' '+pl(CT.n,c.unid)}
+function contIniciar(a,c){
+  audio();
+  if('speechSynthesis' in window){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
+  fcIni();Object.assign(CT,{a,c:clone(c),n:0,t0:performance.now(),pausaTot:0,pEm:0,pausado:false,nAv:0,metade:false,fim:false});
+  ST.uso[a.id]=(ST.uso[a.id]||0)+1;save();
+  $('#kAtiv').textContent=a.icone+' '+a.nome;$('#kTit').textContent='Meta: '+metaTxtC(CT.c);
+  $('#kMais').textContent='＋ 1 '+CT.c.unid;$('#kBt').style.display='grid';$('#kMais').style.display='block';$('#kVoltar').style.display='none';$('#kPausa').textContent='⏸ Pausar';
+  $('#tCont').className='tela on';ir('tCont');wlOn();
+  $('#kExtra').textContent='';
+  if(CT.c.auto==='passos')passosOn(()=>ctToque(1,true)).then(ok=>{if(!ok)$('#kTit').textContent='Sensor de movimento indisponível — use o botão ＋1'});
+  clearInterval(CT.timer);CT.timer=setInterval(ctTick,500);
+  const ab=incOn()?frase('abre'):((C().nome?C().nome+', ':'')+'vamos começar.');
+  falar(ab+' Meta: '+(CT.c.modo==='tempo'?CT.c.metaMin+' minutos':CT.c.modo==='quantidade'?metaVozC():CT.c.metaMin+' minutos ou '+metaVozC()+', o que vier primeiro')+'.');
+  ctTick();
+}
+function metaVozC(){const c=CT.c;return c.un==='m'?c.metaQtd+' metros':c.un==='km'?c.metaQtd+' quilômetros':c.metaQtd+' '+pl(c.metaQtd,c.unid)}
+function ctToque(d,auto){
+  if(CT.fim||CT.pausado)return;
+  const n=Math.max(0,CT.n+d);if(n===CT.n)return;
+  CT.n=n;if(d>0&&!auto){bipe(1000,0.05);if(C().vibrar&&navigator.vibrate)navigator.vibrate(30)}
+  ctTick();
+}
+function ctTick(){
+  if(CT.fim||CT.pausado)return;
+  const s=ctSeg(),t=ctTot(),c=CT.c;
+  const mT=c.modo!=='quantidade'?c.metaMin*60:0,mQ=c.modo!=='tempo'?c.metaQtd:0;
+  const kc=kcalDe(CT.a,s),pT=mT?s/mT:0,pQ=mQ?t/mQ:0,pK=c.metaKcal>0?kc/c.metaKcal:0,prog=Math.max(pT,pQ,pK);
+  $('#kTempo').textContent=mmss(s);$('#kTotal').textContent=qTxt(t,c);$('#kQtdT').textContent=c.un?CT.n+' '+pl(CT.n,c.unid):'';
+  $('#kMetaT').textContent=mT?'Tempo: '+mmss(s)+' / '+mmss(mT):'';$('#kBarT').style.width=Math.min(100,pT*100)+'%';$('#kBarT').parentNode.style.display=mT?'block':'none';
+  $('#kMetaQ').textContent=mQ?'Meta: '+qTxt(t,c)+' / '+qTxt(mQ,c):'';$('#kBarQ').style.width=Math.min(100,pQ*100)+'%';$('#kBarQ').parentNode.style.display=mQ?'block':'none';
+  $('#kExtra').textContent=['~'+Math.round(kc)+' kcal',fcTxt()].filter(Boolean).join(' · ');fcZonaCheck(CT.a);
+  while(c.aviso>0&&t>=(CT.nAv+1)*c.aviso){CT.nAv++;falar(ctVoz()+'. Tempo '+fTempoVoz(s)+'.')}
+  if(!CT.metade&&prog>=0.5&&prog<1){CT.metade=true;falar(incOn()?frase('metade'):'Metade da meta.')}
+  if(prog>=1)ctFim(prog===pT?'tempo':prog===pQ?'quantidade':'calorias');
+}
+function ctFim(motivo){
+  if(CT.fim)return;
+  const s=ctSeg(),t=ctTot(),c=CT.c,kc=kcalDe(CT.a,s),fr=fcRes();
+  CT.fim=true;clearInterval(CT.timer);CT.timer=null;wlOff();passosOff();
+  ST.hist=(ST.hist||[]).concat([Object.assign({id:CT.a.id,nome:CT.a.nome,ts:Date.now(),seg:Math.round(s),q:t,un:c.un||c.unid,kcal:Math.round(kc)},fr)]).slice(-300);
+  ST.ult[CT.a.id]=Date.now();save();
+  $('#tCont').className='tela on fim';
+  $('#kTit').textContent=motivo==='manual'?'Ação encerrada':'Meta atingida!';
+  $('#kTempo').textContent=mmss(s);$('#kTotal').textContent=qTxt(t,c);$('#kMetaT').textContent='';$('#kMetaQ').textContent='';$('#kExtra').textContent=['~'+Math.round(kc)+' kcal',fr.fcm?'❤ média '+fr.fcm+' · máx '+fr.fcx:''].filter(Boolean).join(' · ');
+  $('#kBarT').parentNode.style.display='none';$('#kBarQ').parentNode.style.display='none';
+  $('#kBt').style.display='none';$('#kMais').style.display='none';$('#kVoltar').style.display='block';
+  const fim=incOn()?frase('fim'):('Parabéns'+(C().nome?', '+C().nome:'')+'!');
+  const msg=({manual:'Encerrado. ',tempo:'Tempo cumprido. ',quantidade:'Quantidade cumprida. ',calorias:'Meta de gasto cumprida. '}[motivo])+fim+' Total: '+ctVoz()+' em '+fTempoVoz(s)+'. Gasto estimado: '+Math.round(kc)+' calorias.';
+  if(incOn()&&ESTILOS[C().estilo].apito){apito(0.35);setTimeout(()=>falar(msg),600)}else{bumbo();setTimeout(bumbo,350);falar(msg)}
+}
+$('#kMais').onclick=()=>ctToque(1);
+$('#kMenos').onclick=()=>ctToque(-1);
+$('#kPausa').onclick=()=>{
+  if(CT.fim)return;
+  if(!CT.pausado){CT.pausado=true;CT.pEm=performance.now();$('#kPausa').textContent='▶ Retomar'}
+  else{CT.pausaTot+=performance.now()-CT.pEm;CT.pausado=false;$('#kPausa').textContent='⏸ Pausar'}
+};
+$('#kParar').onclick=()=>{if(confirm('Encerrar a ação agora?'))ctFim('manual')};
+$('#kVoltar').onclick=()=>{try{speechSynthesis.cancel()}catch(e){}ir('tHome')};
+
+/* ---------- Resistência até o limite (cronômetro livre com recorde) ---------- */
+const LV={a:null,l:null,t0:0,timer:null,nAv:0,fim:false,rec:0,recDito:false,metaDita:false};
+const lvSeg=()=>(performance.now()-LV.t0)/1000;
+function livreIniciar(a,l){
+  audio();
+  if('speechSynthesis' in window){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
+  fcIni();
+  const rec=Math.max(0,...(ST.hist||[]).filter(x=>x.id===a.id&&x.seg).map(x=>x.seg));
+  Object.assign(LV,{a,l:clone(l),t0:performance.now(),nAv:0,fim:false,rec,recDito:false,metaDita:false});
+  ST.uso[a.id]=(ST.uso[a.id]||0)+1;save();
+  $('#lAtiv').textContent=a.icone+' '+a.nome;$('#lTit').textContent=LV.l.meta>0?'Meta: '+fTempoVoz(LV.l.meta):'Aguente o máximo que conseguir';
+  $('#lRec').textContent=rec?'Recorde: '+mmss(rec):'Primeira marca: ainda sem recorde';
+  $('#lFim').style.display='block';$('#lVoltar').style.display='none';$('#lExtra').textContent='';
+  $('#tLivre').className='tela on';ir('tLivre');wlOn();
+  clearInterval(LV.timer);LV.timer=setInterval(lvTick,500);
+  falar((incOn()?frase('abre'):((C().nome?C().nome+', ':'')+'vamos começar.'))+' Cronômetro rodando. Segure o máximo que puder.');
+}
+function lvTick(){
+  if(LV.fim)return;
+  const s=lvSeg(),l=LV.l;
+  $('#lTempo').textContent=mmss(s);
+  const kc=kcalDe(LV.a,s);
+  $('#lExtra').textContent=['~'+Math.round(kc)+' kcal',fcTxt()].filter(Boolean).join(' · ');fcZonaCheck(LV.a);
+  $('#lBar').style.width=Math.min(100,(l.meta>0?s/l.meta:LV.rec?s/LV.rec:0)*100)+'%';
+  if(l.aviso>0&&s>=(LV.nAv+1)*l.aviso){LV.nAv=Math.floor(s/l.aviso);falar(fTempoVoz(LV.nAv*l.aviso)+'.')}
+  if(l.meta>0&&!LV.metaDita&&s>=l.meta){LV.metaDita=true;falar('Meta atingida! Continue se conseguir.')}
+  if(LV.rec>0&&!LV.recDito&&s>LV.rec){LV.recDito=true;if(C().vibrar&&navigator.vibrate)navigator.vibrate([150,80,150]);falar('Novo recorde! Continue!')}
+}
+function livreFim(){
+  if(LV.fim)return;
+  const s=lvSeg(),kc=kcalDe(LV.a,s),fr=fcRes(),novo=s>LV.rec;
+  LV.fim=true;clearInterval(LV.timer);LV.timer=null;wlOff();
+  ST.hist=(ST.hist||[]).concat([Object.assign({id:LV.a.id,nome:LV.a.nome,ts:Date.now(),seg:Math.round(s),kcal:Math.round(kc)},fr)]).slice(-300);
+  ST.ult[LV.a.id]=Date.now();save();
+  $('#tLivre').className='tela on fim';
+  $('#lTit').textContent=novo&&LV.rec>0?'🏆 Novo recorde!':'Concluído';
+  $('#lRec').textContent=(LV.rec&&!novo?'Recorde: '+mmss(LV.rec):'')||('Marca: '+mmss(s));
+  $('#lExtra').textContent=['~'+Math.round(kc)+' kcal',fr.fcm?'❤ média '+fr.fcm+' · máx '+fr.fcx:''].filter(Boolean).join(' · ');
+  $('#lFim').style.display='none';$('#lVoltar').style.display='block';
+  falar((novo&&LV.rec>0?'Novo recorde! ':'')+(incOn()?frase('fim')+' ':'')+'Tempo: '+fTempoVoz(s)+'.');
+}
+$('#lFim').onclick=livreFim;
+$('#lVoltar').onclick=()=>{try{speechSynthesis.cancel()}catch(e){}ir('tHome')};
+function lLer(){const l=FC.l;l.meta=Math.round(num($('#lMeta').value,0,l.meta));l.aviso=Math.round(num($('#lAv').value,0,l.aviso));return l}
+function lInfo(){
+  const rec=Math.max(0,...(ST.hist||[]).filter(x=>x.id===FC.a.id&&x.seg).map(x=>x.seg));
+  $('#lInfo').textContent=(rec?'Seu recorde: '+mmss(rec)+'. ':'Ainda sem recorde. ')+(lLer().meta>0?'Meta: '+fTempoVoz(FC.l.meta)+'.':'Sem meta: vale o seu máximo.');
+}
+['lMeta','lAv'].forEach(id=>$('#'+id).addEventListener('change',()=>{if(FC&&FC.l)lInfo()}));
+$('#lSalvar').onclick=()=>{if(!FC||!FC.l)return;FC.a.livre=clone(lLer());save();pintaFicha();alert('Metas salvas.')};
+
+/* ---------- Ajuste ao tempo ---------- */
+/*AJ-START*/
+function ajustar(a,minutos){
+  const T=Math.max(1,minutos)*60,b=clone(a),Rd=b.rodadas,pre=b.preparo||0;
+  const at=ativas(b),N=at.length;
+  if(!N)return {b,minimo:false};
+  const g={},units=[];
+  at.forEach((e,i)=>{const k=e.par?'p'+e.par:'i'+i;if(!g[k]){g[k]={m:[]};units.push(g[k])}g[k].m.push(e)});
+  units.forEach(u=>{u.c1=u.m.reduce((x,e)=>x+serN(e)*somaF(e),0);u.rests=u.m.reduce((x,e)=>x+(serN(e)-1)*(e.descSerie||0),0);u.te=u.m.reduce((x,e)=>x+durEtapa(e),0)});
+  let inter=0;for(let r=0;r<Rd;r++)at.forEach((e,i)=>{if(!(r===Rd-1&&i===N-1))inter+=e.descanso||0});
+  const setReps=(u,n)=>u.m.forEach(e=>e.reps=n);
+  const escala=k=>{at.forEach(e=>{e.descanso=Math.floor((e.descanso||0)*k);e.descSerie=Math.floor((e.descSerie||0)*k)})};
+  const minWork=units.reduce((x,u)=>x+Rd*u.c1,0),restTot=inter+Rd*units.reduce((x,u)=>x+u.rests,0);
+  if(pre+minWork+restTot>T){
+    units.forEach(u=>setReps(u,1));
+    escala(restTot?Math.max(0,(T-pre-minWork)/restTot):0);
+    return {b,minimo:true,minSeg:pre+minWork};
+  }
+  const W=T-pre-inter,teAll=units.reduce((x,u)=>x+u.te,0),igual=b.divisao==='igual';
+  units.forEach(u=>{
+    const tu=(W/Rd)*(igual?u.m.length/N:u.te/teAll);
+    const fl=(tu-u.rests)/u.c1;
+    u.fr=0;
+    if(fl<1){setReps(u,1)}else{u.fr=fl-Math.floor(fl);setReps(u,Math.floor(fl))}
+  });
+  let cortou=false;
+  if(durAtiv(b)>T){
+    const work=units.reduce((x,u)=>x+Rd*u.c1*u.m[0].reps,0);
+    const rt=inter+Rd*units.reduce((x,u)=>x+u.rests,0);
+    escala(rt?Math.max(0,(T-pre-work)/rt):0);cortou=true;
+  }
+  let rem=T-durAtiv(b),add=true;
+  const ordem=units.slice().sort((p,q)=>q.fr-p.fr);
+  while(add){add=false;for(const u of ordem){const c=Rd*u.c1;if(c<=rem){setReps(u,u.m[0].reps+1);rem-=c;add=true}}}
+  return {b,minimo:false,cortou};
+}
+/*AJ-END*/
+/* ---------- Ficha da atividade ---------- */
+let FC=null;
+function abrirAtiv(id){if(C().autoIniciar)iniciar(id);else abrirFicha(id)}
+function abrirFicha(id){
+  const a=ST.atividades.find(x=>x.id===id);if(!a)return;
+  const on=document.querySelector('.tela.on');
+  FC={a,res:null,base:1,volta:on&&(on.id==='tHome'||on.id==='tCat')?on.id:'tCat'};
+  pintaFicha();ir('tFicha');
+}
+function pintaFicha(){
+  const a=FC.a;
+  FC.base=Math.max(1,Math.round(durAtiv(a)/60));
+  $('#fcTit').textContent=(a.icone||'⚡')+' '+a.nome;
+  $('#fcDesc').textContent=a.desc||'';
+  const gps=a.tipo==='gps';
+  const cont=a.tipo==='contador',liv=a.tipo==='livre';
+  $('#fcLivreCard').style.display=liv?'block':'none';fcStatus();
+  $('#fcTempoCard').style.display=gps||cont||liv?'none':'block';$('#fcGpsCard').style.display=gps?'block':'none';$('#fcContCard').style.display=cont?'block':'none';
+  if(liv){
+    FC.l=clone(a.livre);$('#fcResumo').textContent='Cronômetro até o limite';
+    $('#fcChkCard').style.display='none';$('#fcSalvarBox').style.display='none';
+    $('#lMeta').value=FC.l.meta;$('#lAv').value=FC.l.aviso;$('#fcIniciar').textContent='▶ Começar agora';lInfo();return;
+  }
+  if(cont){
+    FC.k=clone(a.cont);$('#fcResumo').textContent='Meta: '+metaTxtC(FC.k);
+    $('#fcChkCard').style.display='none';$('#fcSalvarBox').style.display='none';
+    $('#kModo').value=FC.k.modo;$('#kMin').value=FC.k.metaMin;$('#kQtd').value=FC.k.metaQtd;$('#kAv').value=FC.k.aviso;$('#kKcal').value=FC.k.metaKcal||0;$('#kUn').textContent=FC.k.un||pl(2,FC.k.unid);
+    $('#fcIniciar').textContent='▶ Começar agora';kInfo();return;
+  }
+  if(gps){
+    FC.g=clone(a.gps);
+    $('#fcResumo').textContent='Meta: '+metaTxt(FC.g);
+    $('#fcChkCard').style.display='none';$('#fcSalvarBox').style.display='none';
+    alvoNorm(a,FC.g);$('#gAlvoOn').checked=FC.g.alvoOn;$('#gAlvoA').value=alvoFmt(a,FC.g.alvoA);$('#gAlvoB').value=alvoFmt(a,FC.g.alvoB);$('#gRA').textContent=ehPace(a)?'Mais rápido (min/km)':'Mínima (km/h)';$('#gRB').textContent=ehPace(a)?'Mais lento (min/km)':'Máxima (km/h)';$('#gDesn').value=FC.g.metaDesn;$('#gKcal').value=FC.g.metaKcal;
+    $('#gVolta').checked=FC.g.volta!==false;$('#gModo').value=FC.g.modo;$('#gMin').value=FC.g.metaMin;$('#gKm').value=FC.g.metaKm;$('#gAv').value=FC.g.avisoKm;
+    $('#fcIniciar').textContent='▶ Começar agora';gpsInfo();return;
+  }
+  $('#fcResumo').textContent=ativas(a).length+' etapa(s) · '+a.rodadas+'x · '+fmt(durAtiv(a));
+  $('#fcMin').value=FC.base;
+  const ets=a.etapas;
+  $('#fcChkCard').style.display=ets.length>1?'block':'none';
+  $('#fcChkT').textContent=(a.tipo==='calistenia'?'✔ Exercícios de hoje':'✔ Etapas desta sessão')+' ('+ativas(a).length+' de '+ets.length+')';
+  $('#fcChkD').open=FC.chkOpen===undefined?a.tipo==='calistenia':FC.chkOpen;
+  $('#fcChkL').innerHTML=ets.map((e,i)=>`<div class="rowck"><label class="chk"><input type="checkbox" data-ck="${i}"${e.on!==false?' checked':''}><span>${esc(e.nome)}${e.grupo?' <small>· '+esc(e.grupo)+'</small>':''} <small>· ${rs(e)} · ${fmt(durEtapa(e))}</small></span></label><input class="kgin" type="number" inputmode="decimal" step="any" min="0" placeholder="kg" title="Carga em kg" data-kg="${i}" value="${e.carga>0?e.carga:''}"></div>`).join('');
+  rFicha();
+}
+$('#fcChkD').addEventListener('toggle',()=>{if(FC)FC.chkOpen=$('#fcChkD').open});
+$('#fcChkL').addEventListener('change',ev=>{
+  const el=ev.target;
+  if(el.dataset&&el.dataset.kg!==undefined&&FC){const c=parseFloat(el.value);FC.a.etapas[+el.dataset.kg].carga=c>0?c:undefined;save();return}
+  const i=el.dataset&&el.dataset.ck;if(i===undefined||!FC)return;
+  const e=FC.a.etapas[+i];
+  if(!el.checked&&ativas(FC.a).length<=1){el.checked=true;return alert('Deixe ao menos uma etapa marcada.')}
+  e.on=el.checked;save();pintaFicha();
+});
+$('#fcTodos').onclick=()=>{if(!FC)return;FC.a.etapas.forEach(e=>e.on=true);save();pintaFicha()};
+$('#fcNenhum').onclick=()=>{if(!FC)return;FC.a.etapas.forEach((e,i)=>e.on=i===0);save();pintaFicha()};
+function rFicha(){
+  const a=FC.a,m=parseFloat($('#fcMin').value);
+  const caixa=$('#fcSalvarBox');
+  if(!(m>0)){FC.res=null;$('#fcInfo').textContent='Informe os minutos.';$('#fcPrev').innerHTML='';caixa.style.display='none';$('#fcIniciar').textContent='▶ Começar agora';return}
+  if(m===FC.base){
+    FC.res=null;caixa.style.display='none';
+    $('#fcInfo').innerHTML='Tempo atual da ação: <b>'+fmt(durAtiv(a))+'</b>. Mude os minutos para adequar a ação ao tempo que você tem.';
+    $('#fcPrev').innerHTML=a.etapas.filter(e=>e.on!==false).map((e,i)=>`<div class="pv"><span>${i+1}. ${esc(e.nome)}</span><b>${rs(e)}</b></div>`).join('');
+    $('#fcIniciar').textContent='▶ Começar agora ('+fmt(durAtiv(a))+')';
+    return;
+  }
+  const res=ajustar(a,m);FC.res=res;caixa.style.display='grid';
+  const novo=durAtiv(res.b);
+  $('#fcInfo').innerHTML='Atual: <b>'+fmt(durAtiv(a))+'</b> → Ajustado: <b>'+fmt(novo)+'</b>'+(res.minimo?'<div class="aviso">Tempo abaixo do mínimo possível (1 repetição por etapa = '+fmt(res.minSeg)+'). Os descansos foram encurtados.</div>':res.cortou?'<div class="aviso">Para caber no tempo, os descansos foram encurtados.</div>':'');
+  let q=0;
+  $('#fcPrev').innerHTML=a.etapas.map((e,i)=>{
+    if(e.on===false)return '';
+    const n=res.b.etapas[i];q++;
+    return `<div class="pv"><span>${q}. ${esc(e.nome)}</span><b>${rs(e)} → ${rs(n)}${n.descSerie!==e.descSerie?' · int. '+n.descSerie+'s':''}${n.descanso!==e.descanso?' · desc. '+n.descanso+'s':''}</b></div>`}).join('')
+    +'<div class="mut" style="margin-top:8px">O ritmo de cada fase, o preparo e a ordem não mudam: só as repetições são redistribuídas ('+(a.divisao==='igual'?'tempo igual para cada etapa':'na mesma proporção')+'). Etapas em par (direita/esquerda, sobe/desce) sempre ficam com valores iguais, mesmo que o tempo suba um pouco.</div>';
+  $('#fcIniciar').textContent='▶ Começar agora ('+fmt(novo)+')';
+}
+$('#fcMin').addEventListener('input',()=>rFicha());
+$('#fcVoltar').onclick=()=>ir(FC?FC.volta:'tCat');
+function gpsLer(){
+  const g=FC.g;g.modo=$('#gModo').value;
+  g.volta=$('#gVolta').checked;g.metaMin=num($('#gMin').value,1,g.metaMin);g.metaKm=num($('#gKm').value,0.1,g.metaKm);g.avisoKm=num($('#gAv').value,0.1,g.avisoKm);g.alvoOn=$('#gAlvoOn').checked;g.alvoA=$('#gAlvoA').value;g.alvoB=$('#gAlvoB').value;g.metaDesn=$('#gDesn').value;g.metaKcal=$('#gKcal').value;alvoNorm(FC.a,g);
+  return g;
+}
+function gpsInfo(){
+  const h=(ST.hist||[]).filter(x=>x.id===FC.a.id).slice(-1)[0];
+  $('#gInfo').textContent='Meta: '+metaTxt(gpsLer())+(FC.g.modo==='primeiro'?' — termina quando uma das duas for atingida.':'.')+(FC.g.volta?' Ida e volta: '+(FC.g.modo!=='distancia'?'ida de '+Math.round(FC.g.metaMin/2*10)/10+' min':'')+(FC.g.modo==='primeiro'?' ou ':'')+(FC.g.modo!=='tempo'?'ida de '+kmTxt(FC.g.metaKm/2):'')+' e volta igual.':'')+(h?' Última vez: '+kmTxt(h.m/1000)+' em '+fmt(h.seg)+'.':'');
+}
+['gModo','gMin','gKm','gAv','gVolta','gAlvoOn','gAlvoA','gAlvoB','gDesn','gKcal'].forEach(id=>$('#'+id).addEventListener('change',()=>{if(FC&&FC.g)gpsInfo()}));
+$('#gSalvar').onclick=()=>{if(!FC||!FC.g)return;FC.a.gps=clone(gpsLer());save();pintaFicha();alert('Metas salvas.')};
+function kLer(){
+  const c=FC.k;c.modo=$('#kModo').value;c.metaMin=num($('#kMin').value,1,c.metaMin);c.metaQtd=num($('#kQtd').value,1,c.metaQtd);c.aviso=num($('#kAv').value,0,c.aviso);c.metaKcal=num($('#kKcal').value,0,0);return c;
+}
+function kInfo(){$('#kInfo').textContent='Meta: '+metaTxtC(kLer())+(FC.k.modo==='primeiro'?' — termina quando uma das duas for atingida.':'.')}
+['kModo','kMin','kQtd','kAv','kKcal'].forEach(id=>$('#'+id).addEventListener('change',()=>{if(FC&&FC.k)kInfo()}));
+$('#kSalvar').onclick=()=>{if(!FC||!FC.k)return;FC.a.cont=clone(kLer());save();pintaFicha();alert('Metas salvas.')};
+$('#fcIniciar').onclick=()=>{if(!FC)return;if(FC.a.tipo==='contador')return contIniciar(FC.a,kLer());if(FC.a.tipo==='gps')return gpsIniciar(FC.a,gpsLer());iniciar(FC.a.id,FC.res?FC.res.b:null)};
+$('#fcEditar').onclick=()=>{if(FC)abrirEd(FC.a.id)};
+$('#fcSalvar').onclick=()=>{
+  if(!FC||!FC.res)return;
+  if(!confirm('Substituir as repetições de "'+FC.a.nome+'" por este ajuste?'))return;
+  const i=ST.atividades.findIndex(x=>x.id===FC.a.id);
+  if(i>=0)ST.atividades[i]=FC.res.b;save();
+  FC.a=FC.res.b;pintaFicha();
+};
+$('#fcCopia').onclick=()=>{
+  if(!FC||!FC.res)return;
+  const c=clone(FC.res.b);c.id=uid();c.nome=FC.a.nome+' ('+Math.round(parseFloat($('#fcMin').value))+' min)';
+  ST.atividades.push(c);save();ir('tCat');
+};
+
+/* ---------- Sobre e Changelog ---------- */
+/* Regra Fênix: a cada nova versão, acrescente um bloco no topo de CHANGELOG. */
+const CHANGELOG=[
+ {v:'2.1',d:'03/10/2026',i:[
+  'Ritmo-alvo (GPS): defina a faixa de ritmo (min/km na caminhada, corrida e trilha; km/h no ciclismo e demais). O app mede o ritmo dos últimos 30 s e, se você ficar fora da faixa por 10 s, avisa "ritmo lento, acelere" ou "ritmo rápido demais, segure". A tela mostra o ritmo atual contra o alvo.',
+  'Desnível (GPS): subida e descida acumuladas, com filtro de ruído da altitude, e meta opcional de subida (ex.: 500 m na trilha). A altitude do celular é menos precisa que a distância; trate como estimativa.',
+  'Calorias: estimativa pelo esforço da modalidade e pelo seu peso (informe em Configurações → Perfil e sensores; sem peso, usa 70 kg). Aparece ao vivo e no final de todas as ações, e pode ser meta de encerramento no GPS e na contagem.',
+  'Resistência até o limite: novo tipo de ação com cronômetro que sobe até você encerrar, com meta opcional, avisos de tempo e recorde pessoal ("Novo recorde!"). Ideal para prancha, parede e barra.',
+  'Carga em kg: cada exercício aceita uma carga (editor e ficha da ação). A carga aparece na tela de execução e, no final, o app soma o volume total levantado (carga × repetições).',
+  'Frequência cardíaca: conecte uma cinta Bluetooth (Chrome no Android) em Configurações ou na ficha. Mostra bpm e zona na execução, avisa se a frequência ficar alta ou baixa demais para a zona escolhida na ação (Z1 a Z5, pela FC máxima) e guarda média e máxima.',
+  'Passos: nova contagem automática pelo sensor de movimento do celular (assistente → Voltas ou contagem → Passos). É uma estimativa por picos de aceleração; no iPhone o app pede permissão de movimento.',
+  'Histórico passa a guardar também calorias, volume, subida e frequência cardíaca de cada sessão.',
+  'Cache offline atualizado para a v2.1 (service worker).']},
+ {v:'2.0',d:'03/10/2026',i:[
+  'Assistente "Nova ação": a primeira pergunta agora é "O que esta modalidade vai medir?", com 7 caminhos: distância com GPS, voltas ou contagem, cadência por voz, séries e repetições, intervalado (esforço e descanso), respiração e relaxamento, foco por tempo. Cada um já cria a ação com um modelo pronto para editar.',
+  'Qualquer modalidade com distância ao ar livre: Caminhada, Corrida, Trilha, Ciclismo, Canoagem, Remo, Patins ou Outra. Cada uma tem o seu limite de velocidade para filtrar erros de GPS e mostra ritmo em min/km ou velocidade em km/h conforme o esporte. O editor permite trocar a modalidade.',
+  'Nova ação por contagem (sem GPS), para piscina, pista, pular corda ou qualquer repetição: você toca no botão grande a cada volta ou salto. Cada toque vale um valor configurável (ex.: 25 m por volta da piscina). Meta por tempo, por quantidade ou o que vier primeiro, avisos de voz a cada X e botão de desfazer.',
+  'Fichas e editor com os campos de meta da contagem; histórico guarda também as sessões de contagem.',
+  'Cache offline atualizado para a v2.0 (service worker).']},
+ {v:'1.9',d:'03/10/2026',i:[
+  'Percurso de ida e volta nas ações com GPS (check na ficha e no editor, ligado por padrão): a meta é dividida ao meio, ida e volta iguais. Ex.: 20 km = 10 km na ida e 10 km na volta; 30 min = 15 min para ir e 15 para voltar.',
+  'Aviso de retorno: ao atingir 50% da meta, o app toca o sinal, vibra e fala "Metade do percurso! Hora de fazer o retorno", informando a que distância você está do ponto de partida. A tela passa a mostrar "Retorno · largada a X".',
+  'O ponto de partida é gravado no início; durante a ida a tela mostra a distância até a largada. Se a largada estiver mais longe do que falta para a meta (o caminho de volta pode estourar), o app avisa.',
+  'A ficha mostra a divisão da meta (ex.: "ida de 5 km e volta igual").',
+  'Cache offline atualizado para a v1.9 (service worker).']},
+ {v:'1.8',d:'03/10/2026',i:[
+  'Novas ações de fábrica com GPS: Caminhada 🚶, Corrida 🏃 e Ciclismo 🚴, acrescentadas aos seus dados existentes. Com elas a tela inicial completa os 8 botões.',
+  'Meta por tempo, por distância ou "o que vier primeiro" (ex.: 10 km ou 30 min no ciclismo: o primeiro que for atingido encerra a ação). A meta é ajustada na ficha da ação antes de começar e pode ser salva na ação; também há campos no editor.',
+  'Distância medida pelo GPS do celular (fórmula de Haversine), com filtros para ignorar sinal impreciso, tremor parado e saltos impossíveis de posição.',
+  'Tela de execução com tempo, distância, ritmo médio (min/km) ou velocidade média (km/h no ciclismo), barras de progresso das metas e qualidade do sinal do GPS; pausar (a distância para de contar) e encerrar.',
+  'A voz avisa a cada X km (configurável) com tempo e ritmo médio, comenta a metade da meta no estilo do personal escolhido e fala o resultado final.',
+  'Histórico básico salvo no aparelho (últimas 300 sessões) e "Última vez" exibido na ficha. A tela fica ligada durante a ação.',
+  'Observação: o GPS exige o app aberto por endereço https (instalado ou no navegador) e permissão de localização; com a tela bloqueada o celular pode interromper a medição.',
+  'Cache offline atualizado para a v1.8 (service worker).']},
+ {v:'1.7',d:'03/10/2026',i:[
+  'Tela inicial com 8 botões de ação sempre visíveis (grade compacta). No modo automático mostra as 8 mais usadas.',
+  'Configurações → Botões da tela inicial: marque quais ações quer ver (de 1 a 8). Ao escolher, os mais usados deixam de ser automáticos; há um botão para voltar ao automático.',
+  'Nova ação de fábrica: Calistenia 🤸, com 22 exercícios por grupo muscular (pernas e glúteos, braços/peito/costas, abdômen e core, cardio), incluindo os 15 sugeridos e extras como Burpee, Escalador e Prancha lateral. Os modelos novos são acrescentados aos dados existentes, sem restaurar o que você apagou.',
+  'Séries e repetições: cada etapa agora tem "Séries", "Repetições por série" e "Descanso entre séries" (ex.: Agachamento 5 séries de 15, 3 min de intervalo). Na tela de execução aparecem "Série x de y" e a contagem das repetições em voz alta.',
+  'Ficha com check dos exercícios: marque o que fará hoje (a escolha fica salva). O tempo disponível é dividido entre os marcados, de forma proporcional ou com tempo igual para cada um (opção no editor).',
+  'Simetria: tudo que tem lado oposto (direita/esquerda, sobe/desce) fica sempre com valores iguais. Exercícios unilaterais alternam os dois lados dentro de cada repetição, e etapas em par (ex.: Órbita horária/anti-horária, Diagonais do exercício ocular) recebem sempre o mesmo número de repetições, mesmo que o tempo suba um pouco. Dados antigos foram corrigidos automaticamente.',
+  'Editor: campos de séries, descanso entre séries, grupo, par simétrico, incluir etapa e contar em voz alta. O nome "série" fica para o bloco de repetições; se preferir outro termo, é só pedir.',
+  'Cache offline atualizado para a v1.7 (service worker).']},
+ {v:'1.6',d:'03/10/2026',i:[
+  'Estilo Sargento reformulado para soar como voz de comando: tom mais grave, ritmo firme (sem a pressa que passava insegurança) e cada frase dita separadamente, em tom seco e com pausa entre elas.',
+  'No Sargento, os comandos e frases terminam em exclamação e o texto das frases ficou mais enérgico e imperativo ("Atenção!", "Em posição!", "Aperta!", "Dispensado!").',
+  'Novo apito de comando (sintetizado pelo app) no Sargento: na abertura, antes da última repetição e duas vezes no final da ação.',
+  'Correção: frases sem o nome do praticante deixavam pontuação sobrando no começo; agora ficam corretas.',
+  'Cache offline atualizado para a v1.6 (service worker).']},
+ {v:'1.5',d:'03/10/2026',i:[
+  'Estilos de personal em Configurações: Neutro (só os comandos), Sargento (firme e direto), Amigo (motivador) e Zen (calmo e presente). Cada estilo tem frases próprias e um ritmo e tom de voz próprios.',
+  'A voz chama o praticante pelo nome na abertura, no descanso e no final da ação; se o nome estiver vazio, as frases funcionam sem ele.',
+  'Frases de incentivo durante as séries (check em Configurações): "metade", "faltam dez" (séries de 25+), "faltam cinco" (12+) e "a próxima é a última". São ditas na fase mais longa da repetição, para não atrapalhar o ritmo; fases curtas só com bumbo não são interrompidas.',
+  'Preferência de voz (qualquer, feminina ou masculina): o app filtra as vozes instaladas no aparelho pelo nome e marca com ♂ ♀ as que provavelmente são masculinas ou femininas.',
+  'O botão de teste agora é "Testar voz e estilo" e fala uma frase de abertura e uma de incentivo no estilo escolhido.',
+  'Cache offline atualizado para a v1.5 (service worker).']},
+ {v:'1.4',d:'03/10/2026',i:[
+  'Nova ficha da atividade: ao tocar numa ação (tela inicial ou catálogo) o app abre uma ficha com o resumo, as etapas e o tempo total, e é ali que você decide se começa agora. Nada começa sozinho.',
+  'O ajuste ao tempo passou para dentro da ficha: campo "Meu tempo disponível" com prévia ao vivo por etapa e botão "Começar agora (xx min)" já com o tempo ajustado.',
+  'Na ficha também dá para salvar o ajuste na própria ação, salvar como nova ação ou abrir o editor.',
+  'Configurações: novo check "Iniciar a ação automaticamente ao tocar nela" (desligado por padrão). Ligado, a ação começa direto, como antes.',
+  'Catálogo: o botão "▶ Executar" virou "▶ Abrir" e segue a regra acima; "⏱ Ajustar tempo" sempre abre a ficha, mesmo com o início automático ligado.',
+  'Cache offline atualizado para a v1.4 (service worker).']},
+ {v:'1.3',d:'03/10/2026',i:[
+  'Novo botão "ℹ Sobre" na tela inicial, com a descrição do app, a versão atual e este Changelog detalhado (regra universal dos apps Fênix).',
+  'Tela inicial com 4 ações fixas (as 4 mais usadas, em grade 2×2), no lugar de 2. Os espaços vazios levam direto a "Nova ação".',
+  'Os três botões principais (Executar ação, Nova ação e Configurações) agora ficam na mesma linha.',
+  'Cache offline atualizado para a v1.3 (service worker).']},
+ {v:'1.2',d:'03/10/2026',i:[
+  'App instalável (PWA): manifest, service worker para funcionar offline e ícones (chama dourada em cronômetro, fundo navy).',
+  'Botão "Instalar o app no aparelho" (Android) e instruções para iPhone/iPad em Configurações.',
+  'Aviso "Nova versão pronta" na tela inicial; a atualização só acontece quando a pessoa toca, nunca no meio de um treino.',
+  'Bloqueio do "puxar para atualizar", que podia recarregar a página e interromper a ação em andamento.',
+  'Configurações → Aplicativo: mostra se o app está instalado e se o modo offline está ativo.']},
+ {v:'1.1',d:'03/10/2026',i:[
+  'Novo botão "⏱ Ajustar tempo" em cada ação do catálogo: informe os minutos disponíveis e o app reorganiza as repetições para caber nesse tempo.',
+  'O ajuste preserva o ritmo de cada fase, o preparo e a ordem das etapas, e redistribui as repetições na mesma proporção entre as etapas.',
+  'Prévia por etapa (ex.: 30 → 17 repetições) e tempo final calculado antes de confirmar.',
+  'Três opções ao ajustar: executar assim (sem alterar a ação), salvar na própria ação ou salvar como nova ação.',
+  'Se o tempo pedido for menor que o mínimo possível (1 repetição por etapa), o app avisa e encurta os descansos.',
+  'Correção: botão Cancelar do editor simplificado.']},
+ {v:'1.0',d:'03/10/2026',t:'Versão inicial (entregue antes da regra de numeração como "v0.1").',i:[
+  'Catálogo de ações com executar, editar, duplicar e excluir; cadastro de nova ação.',
+  'Modelo Ação → Rodadas → Etapas → Repetições → Fases, com nome, tempo, dica, fala, som e desenho de cada fase totalmente editáveis; etapas e fases podem ser reordenadas, duplicadas e removidas.',
+  'Execução cadenciada em tela cheia: contagem regressiva, repetição e rodada atuais, barra de progresso e tempo restante; pausar, pular fase, pular etapa e reiniciar etapa; tela sempre ligada.',
+  'Voz do personal em português (voz instalada no aparelho, velocidade, tom e volume), que chama o praticante pelo nome; bumbo sintetizado para fases curtas, bipe, tic e vibração.',
+  'Desenho guiado: ponto que se move (cima, baixo, lados e diagonais), órbita horária e anti-horária, olhos com um deles vedado, piscadas e lápis que se aproxima do nariz.',
+  'Modelos de fábrica: Exercício Ocular (8 etapas, 2 rodadas, descanso de 30 s), Academia Cadenciada, Alongamento de Coluna e Pomodoro Clássico.',
+  'Configurações: nome do praticante, voz, volumes, vibração, testes de voz e bumbo, backup em JSON (exportar e importar) e restaurar modelos.',
+  'Tela inicial com as 2 ações mais usadas fixas. Dados salvos apenas no aparelho (localStorage).']}
+];
+function rSobre(){
+  $('#sbVer').textContent='Versão '+VERSAO;
+  $('#sbLog').innerHTML=CHANGELOG.map(v=>`<div class="card"><h2>v${esc(v.v)} <small>· ${esc(v.d)}</small></h2>${v.t?`<div class="mut">${esc(v.t)}</div>`:''}<ul class="cl">${v.i.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`).join('');
+}
+$('#bSobre').onclick=()=>ir('tSobre');
+
+/* ---------- PWA ---------- */
+let PI=null,SWREG=null,atualizando=false;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();PI=e;$('#bInst').style.display='block'});
+window.addEventListener('appinstalled',()=>{PI=null;$('#bInst').style.display='none'});
+$('#bInst').onclick=async()=>{if(!PI)return;PI.prompt();try{await PI.userChoice}catch(e){}PI=null;$('#bInst').style.display='none'};
+$('#bAtu').onclick=()=>{
+  atualizando=true;
+  if(SWREG&&SWREG.waiting)SWREG.waiting.postMessage('skip');else location.reload();
+};
+function offInfo(){
+  const standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
+  let t='Instalado como app: '+(standalone?'sim':'não')+'. Offline: ';
+  if(!('serviceWorker' in navigator))t+='não suportado neste navegador.';
+  else if(!/^https?:$/.test(location.protocol))t+='indisponível (abra o app pelo endereço https, não pelo arquivo).';
+  else t+=navigator.serviceWorker.controller?'pronto (o app abre sem internet).':'será ativado após o primeiro carregamento completo.';
+  $('#cOff').textContent=t;
+}
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+  navigator.serviceWorker.register('sw.js').then(reg=>{
+    SWREG=reg;
+    const aviso=()=>{if(reg.waiting&&navigator.serviceWorker.controller)$('#bAtu').style.display='block'};
+    aviso();
+    reg.addEventListener('updatefound',()=>{
+      const n=reg.installing;
+      if(n)n.addEventListener('statechange',()=>{if(n.state==='installed')aviso()});
+    });
+  }).catch(()=>{});
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(atualizando)location.reload()});
+}
+
+/* ---------- Início ---------- */
+save();rHome();
+</script>
+</body>
+</html>
